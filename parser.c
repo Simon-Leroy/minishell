@@ -27,18 +27,30 @@ t_cmd	*link_cmd_redir(t_token *tok)
 	return (cmd);
 }
 
-/* int main(void)
+int main(void)
 {
-	char *str = "cat -e < test.txt | grep bonjour";
+	char *test = "bonjour grep < infile | cat >> test.txt";
 
 	t_token *tokens;
-	t_redir **redir;
-	t_cmd	**cmd;
+	t_cmd	*cmd;
+	t_cmd	*tmp;
 
-	redir = NULL;
-	cmd = NULL;
-
-	tokens = list_tokens(str);
-	parse(tokens, cmd, redir);
-	return (0);
-} */
+	tokens = list_tokens(test);
+	cmd = link_cmd_redir(tokens);
+ 	tmp = cmd;
+	while (tmp)
+	{
+		printf("Command:\n");
+		for (int i = 0; tmp->commands[i]; i++)
+			printf("  - %s\n", tmp->commands[i]);
+		t_redir *r = tmp->redir;
+		while (r)
+		{
+			printf("  Redirection: type %d → %s\n", r->type, r->filename);
+			r = r->next;
+		}
+		tmp = tmp->next;
+	}
+	ft_free_tokens(tokens);
+	ft_free_full_cmd(cmd);
+}

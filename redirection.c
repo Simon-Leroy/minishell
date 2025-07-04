@@ -69,31 +69,3 @@ int	extract_redir(t_token **tok, t_redir **redir)
 	}
 	return (1);
 }
-
-int main(void)
-{
-	char *test = "bonjour grep < infile | cat >> test.txt";
-
-	t_token *tokens;
-	t_cmd	*cmd;
-	t_cmd	*tmp;
-
-	tokens = list_tokens(test);
-	cmd = link_cmd_redir(tokens);
- 	tmp = cmd;
-	while (tmp)
-	{
-		printf("Command:\n");
-		for (int i = 0; tmp->commands[i]; i++)
-			printf("  - %s\n", tmp->commands[i]);
-		t_redir *r = tmp->redir;
-		while (r)
-		{
-			printf("  Redirection: type %d → %s\n", r->type, r->filename);
-			r = r->next;
-		}
-		tmp = tmp->next;
-	}
-	ft_free_tokens(tokens);
-	ft_free_full_cmd(cmd);
-}

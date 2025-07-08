@@ -41,14 +41,43 @@ char	*isolate_variable(char *str)
 	return (variable);
 }
 
-/* int main()
+void	string_replace(char *source, char *substring, char *with)
 {
-	char *str;
-	char *print;
+	char	*substring_source;
 
-	str = "Bonjour a tous test\"$ USERles copains";
+	substring_source = ft_strchr(source, '$') + 1;
+	if (substring_source == NULL)
+		return ;
+	ft_memmove(substring_source + ft_strlen(with),
+				substring_source + strlen(substring),
+				strlen(substring_source) - strlen(substring) + 1);
+	ft_memcpy(substring_source, with, strlen(with));
+}
+
+int main()
+{
+	char str[100] = "Bonjour a tous test $USER copains";
+//	char *start;
+//	char *print;
+//	char *test;
+/* 	size_t i;
+
+	start = ft_strchr(str, '$');
+	while (start[i] && (start[i] != '\'' && start[i] != '"' && !check_char(start[i])))
+		i++; */
+
+	printf("%s\n", str);
+	string_replace(str, isolate_variable(str), getenv(isolate_variable(str)));
+	printf("%s\n", str);
+/* 	str = "Bonjour a tous test $USER copains";
+	printf("strstr : %s\n", strstr(str, "USER"));
+	test = ft_strnstr(str, isolate_variable(str), ft_strlen(isolate_variable(str)));
+	printf("%s\n", ft_strchr(str, '$'));
+	print = NULL;
 	if (has_dollar_sign(str))
 		print = isolate_variable(str);
 	printf("%s\n", print);
-	return (0);
-} */
+	printf("%s\n", getenv(print));
+	printf("%s\n", test);
+	return (0); */
+}

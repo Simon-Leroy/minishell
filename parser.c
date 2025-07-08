@@ -27,7 +27,7 @@ t_cmd	*link_cmd_redir(t_token *tok)
 	return (cmd);
 }
 
-int main(void)
+/* int main(void)
 {
 	char *test = "bonjour grep < infile | cat >> test.txt";
 
@@ -53,4 +53,4 @@ int main(void)
 	}
 	ft_free_tokens(tokens);
 	ft_free_full_cmd(cmd);
-}
+} */

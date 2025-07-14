@@ -1,34 +1,34 @@
 #include "minishell.h"
 
-/* char	*ft_strdup(char *src)
-{
-	char	*dup;
-	size_t	len;
-	size_t	i;
 
-	len = ft_strlen(src);
-	dup = malloc(sizeof(char) * (len + 1));
-	if (dup == NULL)
-		return (NULL);
+/* char	*ft_strncpy(char *dest, char *src, unsigned int n)
+{
+	unsigned int	i;
+
 	i = 0;
-	while (src[i])
+	while (src[i] != '\0' && i < n)
 	{
-		dup[i] = src[i];
+		dest[i] = src[i];
 		i++;
 	}
-	dup[i] = '\0';
-	return (dup);
-} */
-/*
-void	ft_free_tab(char **tab)
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
+}
+
+char	*ft_strcpy(char *dest, char *src)
 {
 	int	i;
 
 	i = 0;
-	while (tab[i])
+	while (src[i] != '\0')
 	{
-		free(tab[i]);
+		dest[i] = src[i];
 		i++;
 	}
-	free(tab);
+	dest[i] = '\0';
+	return (dest);
 } */

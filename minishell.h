@@ -91,8 +91,8 @@ int	append_cmd(t_cmd **head, t_token *tok, t_redir *redir);
 char	*path_handler(char *cmd);
 void	exec_cmd(t_cmd *cmd, char **envp);
 
-
-
+char	*ft_strncpy(char *dest, char *src, unsigned int n);
+char	*ft_strcpy(char *dest, char *src);
 
 
 #endif

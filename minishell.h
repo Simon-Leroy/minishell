@@ -23,6 +23,14 @@ typedef enum e_token_type
 	HEREDOC
 } t_token_type;
 
+typedef enum e_env_var_type
+{
+	ENV_VAR,
+	LITERAL,
+	INVALID,
+	EXIT_STATUS
+} t_env_var_type;
+
 // Liste chaînée avec :
 // -valeur : string qui peut être une commande un < un >> etc
 // -is_redir : booléen 1 si le token est une redirection (filename ou symbole) 0 sinon
@@ -85,6 +93,9 @@ int	extract_redir(t_token **tok, t_redir **redir);
 
 // command.c
 int	append_cmd(t_cmd **head, t_token *tok, t_redir *redir);
+
+// expander.c
+char	*expand_str(char *str);
 
 
 

@@ -27,48 +27,60 @@ t_cmd	*link_cmd_redir(t_token *tok)
 	return (cmd);
 }
 
+void	expand_cmd_args(t_cmd *cmd)
+{
+	int		i;
+	char	*expanded;
+	t_cmd	*tmp;
+
+	tmp = cmd;
+	i = 0;
+	while (tmp->commands && tmp->commands[i])
+	{
+		if (ft_strchr(tmp->commands[i], '$'))
+		{
+			expanded = expand_str(tmp->commands[i]);
+			free(tmp->commands[i]);
+			tmp->commands[i] = expanded;
+		}
+		i++;
+	}
+}
+
+void	expand_redirections(t_redir *redir)
+{
+	t_redir	*tmp_redir;
+	char	*expanded;
+
+	tmp_redir = redir;
+	while (tmp_redir)
+	{
+		if (ft_strchr(tmp_redir->filename, '$'))
+		{
+			expanded = expand_str(tmp_redir->filename);
+			free(tmp_redir->filename);
+			tmp_redir->filename = expanded;
+		}
+		tmp_redir = tmp_redir->next;
+	}
+}
+
 void	expand_cmd(t_cmd *cmd)
 {
 	t_cmd	*tmp;
-	t_redir	*redir;
-	char	*expanded_cmd;
-	char	*expanded_filename;
-	int		i;
 
 	tmp = cmd;
 	while (tmp)
 	{
-		i = 0;
-		while (tmp->commands[i])
-		{
-			expanded_cmd = NULL;
-			if (ft_strchr(tmp->commands[i], '$'))
-			{
-				expanded_cmd = expand_str(tmp->commands[i]);
-				free(tmp->commands[i]);
-				tmp->commands[i] = expanded_cmd;
-			}
-			i++;
-		}
-		redir = tmp->redir;
-		expanded_filename = NULL;
-		while (redir != NULL)
-		{
-			if (ft_strchr(redir->filename, '$'))
-			{
-				expanded_filename = expand_str(redir->filename);
-				free(redir->filename);
-				redir->filename = expanded_filename;
-			}
-			redir = redir->next;
-		}
+		expand_cmd_args(tmp);
+		expand_redirections(tmp->redir);
 		tmp = tmp->next;
 	}
 }
 
-int main(void)
+/* int main(void)
 {
-	char *test = "bonjour $9USER < infile | cat >> $HOME/text.txt | grep $HOME.non | test $0HOME$ $USER$";
+	char *test = "bonjour $9USER < infile | cat >> $HOME/text.txt | grep $HOME.non | test $0HOME$ $=USER$";
 
 	t_token *tokens;
 	t_cmd	*cmd;
@@ -93,4 +105,4 @@ int main(void)
 	}
 	ft_free_tokens(tokens);
 	ft_free_full_cmd(cmd);
-}
+} */

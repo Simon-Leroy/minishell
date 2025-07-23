@@ -48,7 +48,7 @@ typedef struct s_token
 // -filename : filename qui suit toujours une redirection
 typedef struct s_redir
 {
-	int				type;
+	t_token_type	type;
 	char			*filename;
 	struct s_redir	*next;
 } t_redir;
@@ -97,13 +97,24 @@ int	append_cmd(t_cmd **head, t_token *tok, t_redir *redir);
 // expander.c
 char	*expand_str(char *str);
 
+// manage_redirections.c
+int	redirect(t_cmd *cmd);
 
+int apply_redirections(t_redir *redir);
 
 char	*path_handler(char *cmd);
 void	exec_cmd(t_cmd *cmd, char **envp);
 
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
 char	*ft_strcpy(char *dest, char *src);
+
+int	first_command(t_cmd *cmd, char **envp, pid_t *pid_out);
+int	middle_pipes(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out);
+int	last_command(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out);
+
+void	expand_cmd(t_cmd *cmd);
+
+void	run_commands(t_cmd *cmd, char **envp);
 
 
 #endif

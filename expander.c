@@ -1,20 +1,5 @@
 #include "minishell.h"
 
-/* int	int_len(int nb)
-{
-	int	len;
-
-	len = 0;
-	if (nb <= 0)
-		len++;
-	while (nb != 0)
-	{
-		nb /= 10;
-		len++;
-	}
-	return (len);
-} */
-
 t_env_var_type classify_dollar(char c)
 {
 	if (c == '?')

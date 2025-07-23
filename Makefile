@@ -7,10 +7,13 @@ SRCFILES =	check_quotes.c \
 			lexing.c \
 			redirection.c \
 			path_handler.c \
+			manage_redirections.c \
+			manage_pipes.c \
 			exec_command.c \
 			expander.c \
 			parser.c \
-			utils.c
+			utils.c \
+			main.c
 
 OBJFILES = $(SRCFILES:.c=.o)
 

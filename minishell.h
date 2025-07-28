@@ -63,6 +63,11 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 } t_cmd;
 
+typedef struct s_shell
+{
+	int				last_exit_code;
+} t_shell;
+
 // PARTIE PARSING
 
 // ft_tokenize.c
@@ -100,21 +105,23 @@ char	*expand_str(char *str);
 // manage_redirections.c
 int	redirect(t_cmd *cmd);
 
-int apply_redirections(t_redir *redir);
+int apply_redirections(t_redir *redir, t_shell *shell);
 
 char	*path_handler(char *cmd);
-void	exec_cmd(t_cmd *cmd, char **envp);
+void	exec_cmd(t_cmd *cmd, char **envp, t_shell *shell);
 
 char	*ft_strncpy(char *dest, char *src, unsigned int n);
 char	*ft_strcpy(char *dest, char *src);
 
-int	first_command(t_cmd *cmd, char **envp, pid_t *pid_out);
-int	middle_pipes(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out);
-int	last_command(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out);
+int	first_command(t_cmd *cmd, char **envp, pid_t *pid_out, t_shell *shell);
+int	middle_pipes(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shell);
+int	last_command(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shell);
 
 void	expand_cmd(t_cmd *cmd);
 
-void	run_commands(t_cmd *cmd, char **envp);
+void	run_commands(t_cmd *cmd, char **envp, t_shell *shell);
+
+void	set_exit_code_errno(t_shell *shell);
 
 
 #endif

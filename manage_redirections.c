@@ -210,11 +210,12 @@ int redirect(t_cmd *cmd)
 	return (0);
 } */
 
-int apply_redirections(t_redir *redir)
+int apply_redirections(t_redir *redir, t_shell *shell)
 {
-	t_redir *r = redir;
+	t_redir *r;
 	int fd;
 
+	r = redir;
 	while (r)
 	{
 		if (r->type == INPUT)
@@ -224,12 +225,12 @@ int apply_redirections(t_redir *redir)
 		else if (r->type == APPEND)
 			fd = open(r->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd < 0)
-			return (perror("open failed"), -1);
+			return (set_exit_code_errno(shell), perror("open failed"), -1);
 		if (r->type == INPUT && dup2(fd, STDIN_FILENO) < 0)
-			return (perror("dup2 failed"), close(fd), -1);
+			return (set_exit_code_errno(shell), perror("dup2 failed"), close(fd), -1);
 		if ((r->type == OUTPUT || r->type == APPEND)
 			&& dup2(fd, STDOUT_FILENO) < 0)
-			return (perror("dup2 failed"), close(fd), -1);
+			return (set_exit_code_errno(shell), perror("dup2 failed"), close(fd), -1);
 		close(fd);
 		r = r->next;
 	}

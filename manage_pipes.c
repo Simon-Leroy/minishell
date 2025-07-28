@@ -6,7 +6,7 @@ void	close_pipe(int *fd)
 	close(fd[1]);
 }
 
-int	first_command(t_cmd *cmd, char **envp, pid_t *pid_out)
+int	first_command(t_cmd *cmd, char **envp, pid_t *pid_out, t_shell *shell)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -25,14 +25,14 @@ int	first_command(t_cmd *cmd, char **envp, pid_t *pid_out)
 			exit(EXIT_FAILURE);
 		}
 		close(fd[1]);
-		exec_cmd(cmd, envp);
+		exec_cmd(cmd, envp, shell);
 	}
 	*pid_out = pid;
 	close(fd[1]);
 	return (fd[0]);
 }
 
-int	middle_pipes(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out)
+int	middle_pipes(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shell)
 {
 	int		fd_pipe[2];
 	pid_t	pid;
@@ -53,7 +53,7 @@ int	middle_pipes(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out)
 		}
 		close_pipe(fd);
 		close_pipe(fd_pipe);
-		exec_cmd(cmd, envp);
+		exec_cmd(cmd, envp, shell);
 	}
 	else
 	{
@@ -65,7 +65,7 @@ int	middle_pipes(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out)
 	return (0);
 }
 
-int	last_command(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out)
+int	last_command(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shell)
 {
 	pid_t	pid;
 
@@ -82,7 +82,7 @@ int	last_command(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out)
 			exit(EXIT_FAILURE);
 		}
 		close(fd[0]);
-		exec_cmd(cmd, envp);
+		exec_cmd(cmd, envp, shell);
 	}
 	else
 	{

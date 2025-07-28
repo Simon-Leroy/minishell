@@ -20,18 +20,19 @@ char	*get_path(t_cmd *cmd)
 	return (path);
 }
 
-void	exec_cmd(t_cmd *cmd, char **envp)
+void	exec_cmd(t_cmd *cmd, char **envp, t_shell *shell)
 {
 	char	*path;
 
-	if (apply_redirections(cmd->redir) < 0)
-		exit(1);
+	if (apply_redirections(cmd->redir, shell) < 0)
+		exit(shell->last_exit_code);
 	path = get_path(cmd);
 	if (execve(path, cmd->commands, envp) == -1)
 	{
 		perror("execve failed");
 		free(path);
-		exit(126);
+		shell->last_exit_code = 126;
+		exit(shell->last_exit_code);
 	}
 }
 
@@ -50,42 +51,54 @@ size_t	get_nbr_commands(t_cmd *cmd)
 	return (count);
 }
 
-void	single_command(t_cmd *cmd, char **envp)
+void	single_command(t_cmd *cmd, char **envp, t_shell *shell)
 {
 	pid_t	pid;
+	int		status;
 
 	pid = fork();
 	if (pid == 0)
-		exec_cmd(cmd, envp);
+		exec_cmd(cmd, envp, shell);
 	else
-		waitpid(pid, NULL, 0);
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			shell->last_exit_code = WEXITSTATUS(status);
+		else
+			shell->last_exit_code = 1;
+	}
 }
 
-void	multiple_commands(t_cmd *cmd, char **envp, pid_t *pids)
+void	multiple_commands(t_cmd *cmd, char **envp, pid_t *pids, t_shell *shell)
 {
 	size_t	i;
 	size_t	j;
 	int		fd;
+	int status;
 	t_cmd	*tmp;
 
 	tmp = cmd;
 	i = 0;
-	fd = first_command(tmp, envp, &pids[i++]);
+	fd = first_command(tmp, envp, &pids[i++], shell);
 	tmp = tmp->next;
 	while (tmp && tmp->next)
 	{
-		middle_pipes(tmp, envp, &fd, &pids[i++]);
+		middle_pipes(tmp, envp, &fd, &pids[i++], shell);
 		tmp = tmp->next;
 	}
 	if (tmp)
-		last_command(tmp, envp, &fd, &pids[i++]);
+		last_command(tmp, envp, &fd, &pids[i++], shell);
 	j = 0;
 	while (j < i)
-		waitpid(pids[j++], NULL, 0);
+	{
+		waitpid(pids[j++], &status, 0);
+		if ((j = i - 1) && WIFEXITED(status))
+			shell->last_exit_code = WEXITSTATUS(status);
+	}
 	free(pids);
 }
 
-void	run_commands(t_cmd *cmd, char **envp)
+void	run_commands(t_cmd *cmd, char **envp, t_shell *shell)
 {
 	size_t	nbr_commands;
 	pid_t	*pids;
@@ -93,13 +106,17 @@ void	run_commands(t_cmd *cmd, char **envp)
 	nbr_commands = get_nbr_commands(cmd);
 	if (nbr_commands == 1)
 	{
-		single_command(cmd, envp);
+		single_command(cmd, envp, shell);
 	}
 	else if (nbr_commands > 1)
 	{
 		pids = malloc(sizeof(pid_t) * nbr_commands);
 		if (!pids)
+		{
+			perror("malloc error");
+			shell->last_exit_code = 1;
 			return ;
-		multiple_commands(cmd, envp, pids);
+		}
+		multiple_commands(cmd, envp, pids, shell);
 	}
 }

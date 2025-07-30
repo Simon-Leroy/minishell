@@ -27,7 +27,7 @@ t_cmd	*link_cmd_redir(t_token *tok)
 	return (cmd);
 }
 
-void	expand_cmd_args(t_cmd *cmd)
+void	expand_cmd_args(t_cmd *cmd, t_shell *shell)
 {
 	int		i;
 	char	*expanded;
@@ -39,7 +39,7 @@ void	expand_cmd_args(t_cmd *cmd)
 	{
 		if (ft_strchr(tmp->commands[i], '$'))
 		{
-			expanded = expand_str(tmp->commands[i]);
+			expanded = expand_str(tmp->commands[i], shell);
 			free(tmp->commands[i]);
 			tmp->commands[i] = expanded;
 		}
@@ -47,7 +47,7 @@ void	expand_cmd_args(t_cmd *cmd)
 	}
 }
 
-void	expand_redirections(t_redir *redir)
+void	expand_redirections(t_redir *redir, t_shell *shell)
 {
 	t_redir	*tmp_redir;
 	char	*expanded;
@@ -57,7 +57,7 @@ void	expand_redirections(t_redir *redir)
 	{
 		if (ft_strchr(tmp_redir->filename, '$'))
 		{
-			expanded = expand_str(tmp_redir->filename);
+			expanded = expand_str(tmp_redir->filename, shell);
 			free(tmp_redir->filename);
 			tmp_redir->filename = expanded;
 		}
@@ -65,17 +65,12 @@ void	expand_redirections(t_redir *redir)
 	}
 }
 
-void	expand_cmd(t_cmd *cmd)
+void	expand_cmd(t_cmd *cmd, t_shell *shell)
 {
-	t_cmd	*tmp;
-
-	tmp = cmd;
-	while (tmp)
-	{
-		expand_cmd_args(tmp);
-		expand_redirections(tmp->redir);
-		tmp = tmp->next;
-	}
+	if (!cmd)
+		return ;
+	expand_cmd_args(cmd, shell);
+	expand_redirections(cmd->redir, shell);
 }
 
 /* int main(void)

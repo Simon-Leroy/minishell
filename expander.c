@@ -32,13 +32,13 @@ char	*extract_var_name(char *str)
 	}
 	if (type == LITERAL)
 		return (ft_strdup("$"));
-	if (type == EXIT_STATUS)
-		return (ft_strdup("?"));
+/* 	if (type == EXIT_STATUS)
+		return (ft_strdup("?")); */
 	return (ft_strdup(""));
 }
 
 // $? pas gere pour le moment
-void	process_var_len(char *str, size_t *i, size_t *len)
+void	process_var_len(char *str, size_t *i, size_t *len, t_shell *shell)
 {
 	char	*var_name;
 	char	*var_value;
@@ -57,16 +57,21 @@ void	process_var_len(char *str, size_t *i, size_t *len)
 		while (str[*i] && (isalnum(str[*i]) || str[*i] == '_'))
 			(*i)++; // on sort du nom de la variable
 	}
+	else if (classify_dollar(str[*i + 1]) == EXIT_STATUS)
+	{
+		*len += int_len(shell->last_exit_code);
+		*i += 2;
+	}
 	else if (classify_dollar(str[*i + 1]) == LITERAL)
 	{
 		(*len)++; //on compte le caractère dollar
 		(*i)++; // on passe au caractère juste après le dollar
 	}
-	else if (classify_dollar(str[*i + 1]) == INVALID || classify_dollar(str[*(i + 1)]) == EXIT_STATUS)
+	else if (classify_dollar(str[*i + 1]) == INVALID)
 		*i += 2; // on skip le dollar le caractère invalide
 }
 
-size_t	expanded_len(char *str)
+size_t	expanded_len(char *str, t_shell *shell)
 {
 	size_t	i;
 	size_t	len;
@@ -76,7 +81,7 @@ size_t	expanded_len(char *str)
 	while (str[i])
 	{
 		if (str[i] == '$')
-			process_var_len(str, &i, &len);
+			process_var_len(str, &i, &len, shell);
 		else
 		{
 			i++;
@@ -86,7 +91,7 @@ size_t	expanded_len(char *str)
 	return (len);
 }
 
-void	process_env_var_copy(char *str, size_t *i, char *exp, size_t *k)
+void	process_env_var_copy(char *str, size_t *i, char *exp, size_t *k, t_shell *shell)
 {
 	char	*var_name;
 	char	*var_value;
@@ -110,20 +115,28 @@ void	process_env_var_copy(char *str, size_t *i, char *exp, size_t *k)
 		while (str[*i] && (isalnum(str[*i]) || str[*i] == '_'))
 			(*i)++; // on sort du nom de la variable
 	}
+	else if (classify_dollar(str[*i + 1]) == EXIT_STATUS)
+	{
+		var_value = ft_itoa(shell->last_exit_code);
+		j = 0;
+		while (var_value[j])
+			exp[(*k)++] = var_value[j++];
+		(*i) += 2;
+	}
 	else if (classify_dollar(str[*i + 1]) == LITERAL)
 		exp[(*k)++] = str[(*i)++]; // copie le dollar
-	else if (classify_dollar(str[*i + 1]) == INVALID || classify_dollar(str[*(i + 1)]) == EXIT_STATUS)
+	else if (classify_dollar(str[*i + 1]) == INVALID)
 		*i += 2; // on skip le dollar le caractère invalide
 }
 
-char	*expand_str(char *str)
+char	*expand_str(char *str, t_shell *shell)
 {
 	char	*exp;
 	size_t	len;
 	size_t	i;
 	size_t	k;
 
-	len = expanded_len(str);
+	len = expanded_len(str, shell);
 	exp = malloc(sizeof(char) * (len + 1));
 	if (!exp)
 		return (NULL);
@@ -132,7 +145,7 @@ char	*expand_str(char *str)
 	while (str[i])
 	{
 		if (str[i] == '$')
-			process_env_var_copy(str, &i, exp, &k);
+			process_env_var_copy(str, &i, exp, &k, shell);
 		else
 			exp[k++] = str[i++];
 	}
@@ -142,10 +155,14 @@ char	*expand_str(char *str)
 
 /* int main()
 {
-	char *str = "bonjour $USER$USER $ $9HOME";
-	char *expand = expand_str(str);
+	t_shell	shell;
 
-	printf("%li\n", expanded_len(str));
+	shell.last_exit_code = 127;
+	char *str = "bonjour $USER$USER $?abcdef $9HOME";
+	char *expand = expand_str(str, &shell);
+
+	printf("%li\n", expanded_len(str, &shell));
+	printf("%li\n", ft_strlen(expand));
 	printf("%s\n", expand);
 	free(expand);
 } */

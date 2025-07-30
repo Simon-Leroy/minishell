@@ -100,7 +100,7 @@ int	extract_redir(t_token **tok, t_redir **redir);
 int	append_cmd(t_cmd **head, t_token *tok, t_redir *redir);
 
 // expander.c
-char	*expand_str(char *str);
+char	*expand_str(char *str, t_shell *shell);
 
 // manage_redirections.c
 int	redirect(t_cmd *cmd);
@@ -117,11 +117,14 @@ int	first_command(t_cmd *cmd, char **envp, pid_t *pid_out, t_shell *shell);
 int	middle_pipes(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shell);
 int	last_command(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shell);
 
-void	expand_cmd(t_cmd *cmd);
+void	expand_cmd(t_cmd *cmd, t_shell *shell);
 
 void	run_commands(t_cmd *cmd, char **envp, t_shell *shell);
 
 void	set_exit_code_errno(t_shell *shell);
+
+// utils.c
+int	int_len(int nb);
 
 
 #endif

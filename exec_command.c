@@ -24,6 +24,7 @@ void	exec_cmd(t_cmd *cmd, char **envp, t_shell *shell)
 {
 	char	*path;
 
+	expand_cmd(cmd, shell);
 	if (apply_redirections(cmd->redir, shell) < 0)
 		exit(shell->last_exit_code);
 	path = get_path(cmd);
@@ -92,7 +93,7 @@ void	multiple_commands(t_cmd *cmd, char **envp, pid_t *pids, t_shell *shell)
 	while (j < i)
 	{
 		waitpid(pids[j++], &status, 0);
-		if ((j = i - 1) && WIFEXITED(status))
+		if ((j == i - 1) && WIFEXITED(status))
 			shell->last_exit_code = WEXITSTATUS(status);
 	}
 	free(pids);

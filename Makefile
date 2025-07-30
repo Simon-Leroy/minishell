@@ -18,7 +18,7 @@ SRCFILES =	check_quotes.c \
 
 OBJFILES = $(SRCFILES:.c=.o)
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -lreadline -Wall -Wextra -Werror -g
 
 LIBFTPATH = libft
 
@@ -31,7 +31,7 @@ RM = rm -f
 all: subdirectories $(NAME)
 
 $(NAME): $(OBJFILES)
-			$(CC) $(CFLAGS) -o $(NAME) $(OBJFILES) $(LIBFTLIB)
+			$(CC) -o $(NAME) $(OBJFILES) $(CFLAGS) $(LIBFTLIB)
 
 subdirectories :
 			make -C $(LIBFTPATH)

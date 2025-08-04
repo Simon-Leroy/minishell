@@ -37,26 +37,28 @@ char	*extract_var_name(char *str)
 	return (ft_strdup(""));
 }
 
-// $? pas gere pour le moment
-void	process_var_len(char *str, size_t *i, size_t *len, t_shell *shell)
+void	handle_env_var(char *str, size_t *i, size_t *len)
 {
 	char	*var_name;
 	char	*var_value;
 
-	if (classify_dollar(str[*i + 1]) == ENV_VAR)
+	var_name = extract_var_name(&str[*i]);
+	if (var_name)
 	{
-		var_name = extract_var_name(&str[*i]);
-		if (var_name)
-		{
-			var_value = getenv(var_name);
-			if (var_value)
-				*len += ft_strlen(var_value);
-			free(var_name);
-		}
-		(*i)++; // on passe au caractère juste après le dollar
-		while (str[*i] && (isalnum(str[*i]) || str[*i] == '_'))
-			(*i)++; // on sort du nom de la variable
+		var_value = getenv(var_name);
+		if (var_value)
+			*len += ft_strlen(var_value);
+		free(var_name);
 	}
+	(*i)++; // on passe au caractère juste après le dollar
+	while (str[*i] && (isalnum(str[*i]) || str[*i] == '_'))
+		(*i)++; // on sort du nom de la variable
+}
+
+void	process_var_len(char *str, size_t *i, size_t *len, t_shell *shell)
+{
+	if (classify_dollar(str[*i + 1]) == ENV_VAR)
+		handle_env_var(str, i, len);
 	else if (classify_dollar(str[*i + 1]) == EXIT_STATUS)
 	{
 		*len += int_len(shell->last_exit_code);
@@ -91,30 +93,35 @@ size_t	expanded_len(char *str, t_shell *shell)
 	return (len);
 }
 
-void	process_env_var_copy(char *str, size_t *i, char *exp, size_t *k, t_shell *shell)
+void	copy_env_var_type(char *str, size_t *i, char *exp, size_t *k)
 {
 	char	*var_name;
 	char	*var_value;
 	size_t	j;
 
-	if (classify_dollar(str[*i + 1]) == ENV_VAR)
+	var_name = extract_var_name(&str[*i]);
+	if (var_name)
 	{
-		var_name = extract_var_name(&str[*i]);
-		if (var_name)
+		var_value = getenv(var_name);
+		if (var_value)
 		{
-			var_value = getenv(var_name);
-			if (var_value)
-			{
-				j = 0;
-				while (var_value[j])
-					exp[(*k)++] = var_value[j++];
-			}
-			free(var_name);
+			j = 0;
+			while (var_value[j])
+				exp[(*k)++] = var_value[j++];
 		}
-		(*i)++; // on passe au caractère juste après le dollar
-		while (str[*i] && (isalnum(str[*i]) || str[*i] == '_'))
-			(*i)++; // on sort du nom de la variable
+		free(var_name);
 	}
+	(*i)++; // on passe au caractère juste après le dollar
+	while (str[*i] && (isalnum(str[*i]) || str[*i] == '_'))
+		(*i)++; // on sort du nom de la variable
+}
+void	process_env_var_copy(char *str, size_t *i, char *exp, size_t *k, t_shell *shell)
+{
+	char	*var_value;
+	size_t	j;
+
+	if (classify_dollar(str[*i + 1]) == ENV_VAR)
+		copy_env_var_type(str, i, exp, k);
 	else if (classify_dollar(str[*i + 1]) == EXIT_STATUS)
 	{
 		var_value = ft_itoa(shell->last_exit_code);

@@ -1,9 +1,15 @@
 #include "minishell.h"
 
+void	free_mem(t_cmd *cmd, t_token *tokens, char *input)
+{
+	ft_free_tokens(tokens);
+	ft_free_full_cmd(cmd);
+	free(input);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	t_shell shell;
-//	char *test;
 	t_token *tokens;
 	t_cmd	*cmd;
 	char	*input;
@@ -19,11 +25,12 @@ int main(int argc, char **argv, char **envp)
 			printf("exit\n");
 			break ;
 		}
+		if (*input)
+			add_history(input);
 		tokens = list_tokens(input);
 		cmd = link_cmd_redir(tokens);
 		run_commands(cmd, envp, &shell);
-		ft_free_tokens(tokens);
-		ft_free_full_cmd(cmd);
+		free_mem(cmd, tokens, input);
 	}
 	return (0);
 }

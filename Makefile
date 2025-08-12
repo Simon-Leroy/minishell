@@ -14,6 +14,7 @@ SRCFILES =	check_quotes.c \
 			parser.c \
 			utils.c \
 			error.c \
+			heredoc.c \
 			main.c
 
 OBJFILES = $(SRCFILES:.c=.o)

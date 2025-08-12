@@ -74,21 +74,23 @@ void	multiple_commands(t_cmd *cmd, char **envp, pid_t *pids, t_shell *shell)
 {
 	size_t	i;
 	size_t	j;
-	int		fd;
+	int		fd[2];
 	int status;
 	t_cmd	*tmp;
 
 	tmp = cmd;
 	i = 0;
-	fd = first_command(tmp, envp, &pids[i++], shell);
+	fd[0] = -1;
+	fd[1] = -1;
+	fd[0] = first_command(tmp, envp, &pids[i++], shell);
 	tmp = tmp->next;
 	while (tmp && tmp->next)
 	{
-		middle_pipes(tmp, envp, &fd, &pids[i++], shell);
+		middle_pipes(tmp, envp, fd, &pids[i++], shell);
 		tmp = tmp->next;
 	}
 	if (tmp)
-		last_command(tmp, envp, &fd, &pids[i++], shell);
+		last_command(tmp, envp, fd, &pids[i++], shell);
 	j = 0;
 	while (j < i)
 	{

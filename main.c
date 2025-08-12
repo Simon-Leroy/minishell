@@ -13,6 +13,8 @@ int main(int argc, char **argv, char **envp)
 	t_token *tokens;
 	t_cmd	*cmd;
 	char	*input;
+//	t_cmd	*tmp;
+
 
 	(void)argc;
 	(void)argv;
@@ -29,6 +31,7 @@ int main(int argc, char **argv, char **envp)
 			add_history(input);
 		tokens = list_tokens(input);
 		cmd = link_cmd_redir(tokens);
+//		tmp = cmd;
 		run_commands(cmd, envp, &shell);
 		free_mem(cmd, tokens, input);
 	}

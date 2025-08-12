@@ -2,8 +2,16 @@
 
 void	close_pipe(int *fd)
 {
-	close(fd[0]);
-	close(fd[1]);
+	if (fd[0] >= 0)
+		close(fd[0]);
+	if (fd[1] >= 0)
+		close(fd[1]);
+}
+
+void	check_close(int fd)
+{
+	if (fd >= 0)
+		close(fd);
 }
 
 int	first_command(t_cmd *cmd, char **envp, pid_t *pid_out, t_shell *shell)
@@ -18,17 +26,17 @@ int	first_command(t_cmd *cmd, char **envp, pid_t *pid_out, t_shell *shell)
 		return (2);
 	if (pid == 0)
 	{
-		close(fd[0]);
+		check_close(fd[0]);
 		if (dup2(fd[1], STDOUT_FILENO) < 0)
 		{
 			close_pipe(fd);
 			exit(EXIT_FAILURE);
 		}
-		close(fd[1]);
+		check_close(fd[1]);
 		exec_cmd(cmd, envp, shell);
 	}
 	*pid_out = pid;
-	close(fd[1]);
+	check_close(fd[1]);
 	return (fd[0]);
 }
 
@@ -58,7 +66,7 @@ int	middle_pipes(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shel
 	else
 	{
 		close_pipe(fd);
-		close(fd_pipe[1]);
+		check_close(fd_pipe[1]);
 		fd[0] = fd_pipe[0];
 		*pid_out = pid;
 	}
@@ -74,14 +82,14 @@ int	last_command(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shel
 		return (2);
 	if (pid == 0)
 	{
-		close(fd[1]);
+		check_close(fd[1]);
 		if (dup2(fd[0], STDIN_FILENO) < 0)
 		{
 			perror("dup2 failed");
 			close_pipe(fd);
 			exit(EXIT_FAILURE);
 		}
-		close(fd[0]);
+		check_close(fd[0]);
 		exec_cmd(cmd, envp, shell);
 	}
 	else

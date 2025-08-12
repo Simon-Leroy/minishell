@@ -14,6 +14,27 @@ t_redir	*ft_lst_last_redir(t_redir *list)
 	return (last);
 }
 
+// Traite un token de redirection simple (INPUT, OUTPUT, APPEND, HEREDOC)
+// Appelle handle_heredoc si c'est un heredoc
+
+int	process_redir_token(t_token *tok, t_redir **redir, int *heredoc_count)
+{
+	if (!tok->next || tok->next->type != WORD)
+	{
+		perror("Syntax error");
+		return (0);
+	}
+	if (tok->type == HEREDOC)
+	{
+		if (!handle_heredoc(tok, *heredoc_count))
+			return (0);
+		(*heredoc_count)++;
+	}
+	if (!append_redir(redir, tok))
+		return (0);
+	return (1);
+}
+
 // Ajoute une redirection à la fin de la liste *head en se basant sur
 // le token tok et son WORD suivant (nom de fichier).
 // - Crée un nouveau noeud `t_redir`
@@ -30,7 +51,7 @@ int	append_redir(t_redir **head, t_token *tok)
 	if (!new_node)
 		return (0);
 	if (!tok->next || tok->next->type != WORD)
-		return (0);
+		return (free(new_node), 0);
 	new_node->type = tok->type;
 	new_node->filename = ft_strdup(tok->next->value);
 	if (!new_node->filename)
@@ -47,11 +68,33 @@ int	append_redir(t_redir **head, t_token *tok)
 	}
 	return (1);
 }
-// Parcourt les tokens d'un bloc (avant un pipe ou la fin de la liste)
-// et extrait toutes les redirections pour les mettre dans redir
-// Renvoie 0 en cas d'erreur de syntaxe (symbole de redirection pas suivi par un nom de fichier)
+// Parcourt les tokens avant un pipe et extrait les redirections
+
 int	extract_redir(t_token **tok, t_redir **redir)
 {
+	int	heredoc_count = 0;
+
+	while (*tok && (*tok)->type != PIPE)
+	{
+		if ((*tok)->type != WORD)
+		{
+			if (!process_redir_token(*tok, redir, &heredoc_count))
+				return (0);
+			*tok = (*tok)->next->next;
+		}
+		else
+			*tok = (*tok)->next;
+	}
+	return (1);
+}
+
+/* int	extract_redir(t_token **tok, t_redir **redir)
+{
+	int		heredoc_count;
+	int		fd;
+	char	*tmp_filename;
+
+	heredoc_count = 0;
 	while (*tok != NULL && (*tok)->type != PIPE)
 	{
 		if ((*tok)->type != WORD)
@@ -61,11 +104,26 @@ int	extract_redir(t_token **tok, t_redir **redir)
 				perror("Erreur de syntaxe\n");
 				return (0);
 			}
-			append_redir(redir, *tok);
+			if ((*tok)->next->type == HEREDOC)
+			{
+				fd = heredoc_fd((*tok)->next->value, heredoc_count++);
+				if (fd < 0)
+				{
+					perror("heredoc failed");
+					return (0);
+				}
+				tmp_filename = generate_tmp_filename(heredoc_count - 1);
+				if (!tmp_filename)
+					return (0);
+				free((*tok)->next->value);
+				(*tok)->next->value = tmp_filename;
+			}
+			if (!append_redir(redir, *tok, &heredoc_count))
+				return (0);
 			(*tok) = (*tok)->next->next;
 		}
 		else
 			(*tok) = (*tok)->next;
 	}
 	return (1);
-}
+} */

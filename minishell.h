@@ -126,5 +126,13 @@ void	set_exit_code_errno(t_shell *shell);
 // utils.c
 int	int_len(int nb);
 
+//heredoc.c
+int		heredoc_fd(char *eof, int file_number);
+char	*generate_tmp_filename(int	i);
+
+int	ft_strcmp(char *s1, char *s2);
+
+int	handle_heredoc(t_token *tok, int heredoc_count);
+
 
 #endif

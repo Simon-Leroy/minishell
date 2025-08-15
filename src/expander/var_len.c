@@ -1,0 +1,57 @@
+#include "minishell.h"
+
+void	handle_env_var(char *str, size_t *i, size_t *len)
+{
+	char	*var_name;
+	char	*var_value;
+
+	var_name = extract_var_name(&str[*i]);
+	if (var_name)
+	{
+		var_value = getenv(var_name);
+		if (var_value)
+			*len += ft_strlen(var_value);
+		free(var_name);
+	}
+	(*i)++; // on passe au caractère juste après le dollar
+	while (str[*i] && (isalnum(str[*i]) || str[*i] == '_'))
+		(*i)++; // on sort du nom de la variable
+}
+
+void	process_var_len(char *str, size_t *i, size_t *len, t_shell *shell)
+{
+	if (classify_dollar(str[*i + 1]) == ENV_VAR)
+		handle_env_var(str, i, len);
+	else if (classify_dollar(str[*i + 1]) == EXIT_STATUS)
+	{
+		*len += int_len(shell->last_exit_code);
+		*i += 2;
+	}
+	else if (classify_dollar(str[*i + 1]) == LITERAL)
+	{
+		(*len)++; //on compte le caractère dollar
+		(*i)++; // on passe au caractère juste après le dollar
+	}
+	else if (classify_dollar(str[*i + 1]) == INVALID)
+		*i += 2; // on skip le dollar le caractère invalide
+}
+
+size_t	expanded_len(char *str, t_shell *shell)
+{
+	size_t	i;
+	size_t	len;
+
+	i = 0;
+	len = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+			process_var_len(str, &i, &len, shell);
+		else
+		{
+			i++;
+			len++;
+		}
+	}
+	return (len);
+}

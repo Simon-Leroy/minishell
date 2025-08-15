@@ -55,3 +55,23 @@ char	*path_handler(char *cmd)
 		return (abs_path);
 	}
 }
+
+char	*get_path(t_cmd *cmd)
+{
+	char	*path;
+
+	if (!cmd->commands[0])
+	{
+//		ft_free_tab(cmd->commands);
+		perror("could not find command");
+		exit(127);
+	}
+	path = path_handler(cmd->commands[0]);
+	if (!path)
+	{
+//		ft_free_tab(args);
+		perror("could not find command");
+		exit(127);
+	}
+	return (path);
+}

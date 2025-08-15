@@ -1,25 +1,48 @@
 NAME = minishell
 
-SRCFILES =	check_quotes.c \
-			command.c \
-			free.c \
-			ft_tokenize.c \
-			lexing.c \
-			redirection.c \
-			path_handler.c \
-			manage_redirections.c \
-			manage_pipes.c \
-			exec_command.c \
-			expander.c \
-			parser.c \
-			utils.c \
-			error.c \
-			heredoc.c \
-			main.c
+SRC_DIR = src
+LEXER_DIR = $(SRC_DIR)/lexer
+PARSER_DIR = $(SRC_DIR)/parser
+EXPAND_DIR = $(SRC_DIR)/expander
+EXEC_DIR = $(SRC_DIR)/executor
+UTILS_DIR = $(SRC_DIR)/utils
+
+
+SRCFILES = \
+	$(EXEC_DIR)/count_cmd.c \
+	$(EXEC_DIR)/exec_cmd.c \
+	$(EXEC_DIR)/heredoc.c \
+	$(EXEC_DIR)/multiple_cmd.c \
+	$(EXEC_DIR)/path_handler.c \
+	$(EXEC_DIR)/pipe_utils.c \
+	$(EXEC_DIR)/redirections.c \
+	$(EXEC_DIR)/run_commands.c \
+	$(EXEC_DIR)/single_cmd.c \
+	$(EXPAND_DIR)/dollar_classify.c \
+	$(EXPAND_DIR)/expand.c \
+	$(EXPAND_DIR)/expander_quotes.c \
+	$(EXPAND_DIR)/var_copy.c \
+	$(EXPAND_DIR)/var_len.c \
+	$(LEXER_DIR)/lexer.c \
+	$(LEXER_DIR)/token_list.c \
+	$(LEXER_DIR)/token_types.c \
+	$(LEXER_DIR)/tokenizer_utils.c \
+	$(LEXER_DIR)/tokenizer.c \
+	$(PARSER_DIR)/cmd_block_create.c \
+	$(PARSER_DIR)/cmd_expand_quotes.c \
+	$(PARSER_DIR)/cmd_list_utils.c \
+	$(PARSER_DIR)/link_cmd_redir.c \
+	$(PARSER_DIR)/quote_validation.c \
+	$(PARSER_DIR)/redir_list_utils.c \
+	$(PARSER_DIR)/redir_process.c \
+	$(UTILS_DIR)/error.c \
+	$(UTILS_DIR)/free.c \
+	$(UTILS_DIR)/utils.c \
+	main.c
 
 OBJFILES = $(SRCFILES:.c=.o)
 
-CFLAGS = -lreadline -Wall -Wextra -Werror -g
+CFLAGS = -lreadline -Wall -Wextra -Werror -Iincludes -g
 
 LIBFTPATH = libft
 

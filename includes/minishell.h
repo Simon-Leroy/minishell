@@ -11,7 +11,7 @@
 # include <signal.h>
 # include <string.h>
 # include <errno.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 
 typedef enum e_token_type
 {
@@ -68,8 +68,79 @@ typedef struct s_shell
 	int				last_exit_code;
 } t_shell;
 
-// PARTIE PARSING
+// LEXER PART
 
+t_token	*list_tokens(char *str);
+int	append_token(t_token **list, char *value, t_token_type type);
+t_token_type get_t_type(char *str);
+char	*token_copy(char *s);
+
+int	tokens_count(char *s);
+size_t	ft_token_len(char *str);
+int	check_char(char c);
+char	**ft_tokenize(char *s);
+
+// PARSER PART
+
+int	append_cmd(t_cmd **head, t_token *tok, t_redir *redir);
+void	expand_remove_quotes_cmd(t_cmd *cmd, t_shell *shell);
+t_cmd	*ft_lst_last_cmd(t_cmd *list);
+size_t	nb_cmd_by_block(t_token	*tokens);
+t_cmd	*link_cmd_redir(t_token *tok);
+
+int	has_closed_quotes(char *str);
+int	validate_quote_closure(char *str, char delim, size_t *index);
+int	append_redir(t_redir **head, t_token *tok);
+int	extract_redir(t_token **tok, t_redir **redir);
+
+// EXPANDER PART
+
+char	*extract_var_name(char *str);
+char	*expand_str(char *str, t_shell *shell);
+char	*remove_quotes(char *str);
+t_env_var_type classify_dollar(char c);
+void	process_env_var_copy(char *str, size_t *i, char *exp, size_t *k, t_shell *shell);
+size_t	expanded_len(char *str, t_shell *shell);
+
+// EXECUTOR PART
+
+size_t	get_nbr_commands(t_cmd *cmd);
+void	exec_cmd(t_cmd *cmd, char **envp, t_shell *shell);
+int	handle_heredoc(t_token *tok, int heredoc_count);
+
+void	single_command(t_cmd *cmd, char **envp, t_shell *shell);
+void	multiple_commands(t_cmd *cmd, char **envp, pid_t *pids, t_shell *shell);
+char	*get_path(t_cmd *cmd);
+
+void	check_close(int fd);
+void	close_pipe(int *fd);
+
+int apply_redirections(t_redir *redir, t_shell *shell);
+void	run_commands(t_cmd *cmd, char **envp, t_shell *shell);
+
+// UTILS
+
+void	set_exit_code_errno(t_shell *shell);
+
+void	ft_free_tab(char **tab);
+void	ft_free_tokens(t_token *list);
+void	ft_free_redir(t_redir *redir);
+void	ft_free_full_cmd(t_cmd *cmd);
+
+int	int_len(int nb);
+int	ft_strcmp(char *s1, char *s2);
+
+
+
+
+
+
+
+
+
+
+
+/*
 // ft_tokenize.c
 char	**ft_tokenize(char *s);
 int		check_char(char c);
@@ -117,7 +188,7 @@ int	first_command(t_cmd *cmd, char **envp, pid_t *pid_out, t_shell *shell);
 int	middle_pipes(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shell);
 int	last_command(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shell);
 
-void	expand_cmd(t_cmd *cmd, t_shell *shell);
+void	expand_remove_quotes_cmd(t_cmd *cmd, t_shell *shell);
 
 void	run_commands(t_cmd *cmd, char **envp, t_shell *shell);
 
@@ -133,6 +204,8 @@ char	*generate_tmp_filename(int	i);
 int	ft_strcmp(char *s1, char *s2);
 
 int	handle_heredoc(t_token *tok, int heredoc_count);
+
+char	*remove_quotes(char *str); */
 
 
 #endif

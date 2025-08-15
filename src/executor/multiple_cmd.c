@@ -1,19 +1,5 @@
 #include "minishell.h"
 
-void	close_pipe(int *fd)
-{
-	if (fd[0] >= 0)
-		close(fd[0]);
-	if (fd[1] >= 0)
-		close(fd[1]);
-}
-
-void	check_close(int fd)
-{
-	if (fd >= 0)
-		close(fd);
-}
-
 int	first_command(t_cmd *cmd, char **envp, pid_t *pid_out, t_shell *shell)
 {
 	int		fd[2];
@@ -98,4 +84,35 @@ int	last_command(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shel
 		*pid_out = pid;
 	}
 	return (0);
+}
+
+void	multiple_commands(t_cmd *cmd, char **envp, pid_t *pids, t_shell *shell)
+{
+	size_t	i;
+	size_t	j;
+	int		fd[2];
+	int status;
+	t_cmd	*tmp;
+
+	tmp = cmd;
+	i = 0;
+	fd[0] = -1;
+	fd[1] = -1;
+	fd[0] = first_command(tmp, envp, &pids[i++], shell);
+	tmp = tmp->next;
+	while (tmp && tmp->next)
+	{
+		middle_pipes(tmp, envp, fd, &pids[i++], shell);
+		tmp = tmp->next;
+	}
+	if (tmp)
+		last_command(tmp, envp, fd, &pids[i++], shell);
+	j = 0;
+	while (j < i)
+	{
+		waitpid(pids[j++], &status, 0);
+		if ((j == i - 1) && WIFEXITED(status))
+			shell->last_exit_code = WEXITSTATUS(status);
+	}
+	free(pids);
 }

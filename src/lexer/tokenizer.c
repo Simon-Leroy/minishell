@@ -37,10 +37,9 @@ char	**ft_tokenize(char *s)
 	return (tab);
 }
 
-/*
-int main()
+/* int main()
 {
-	char *str = "";
+	char *str = "bonjour | \"tous>>>bon\"";
 	char **tab;
 
 	tab = ft_tokenize(str);

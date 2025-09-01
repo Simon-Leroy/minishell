@@ -42,7 +42,7 @@ SRCFILES = \
 
 OBJFILES = $(SRCFILES:.c=.o)
 
-CFLAGS = -lreadline -Wall -Wextra -Werror -Iincludes -g
+CFLAGS = -Wall -Wextra -Werror -Iincludes -g
 
 LIBFTPATH = libft
 
@@ -55,7 +55,7 @@ RM = rm -f
 all: subdirectories $(NAME)
 
 $(NAME): $(OBJFILES)
-			$(CC) -o $(NAME) $(OBJFILES) $(CFLAGS) $(LIBFTLIB)
+			$(CC) -o $(NAME) $(OBJFILES) $(CFLAGS) $(LIBFTLIB) -lreadline
 
 subdirectories :
 			make -C $(LIBFTPATH)

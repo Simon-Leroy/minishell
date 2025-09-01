@@ -8,6 +8,13 @@ int	check_char(char c)
 	return (0);
 }
 
+int	is_separator(char c)
+{
+	if (c == '>' || c == '<' || c == '|')
+		return (1);
+	return (0);
+}
+
 // Compte le nombre de tokens qu'il y a dans la string pour pouvoir
 // allouer en mémoire un tableau de strings
 int	tokens_count(char *s)
@@ -19,19 +26,23 @@ int	tokens_count(char *s)
 	words = 0;
 	while (s[i])
 	{
-		if (s[i] == '\'')
+		if (s[i] == '\'' || s[i] == '"')
 		{
-			validate_quote_closure(s, '\'', &i);
+			validate_quote_closure(s, s[i], &i);
 			if (check_char(s[i + 1]))
 				words++;
 		}
-		else if (s[i] == '\"')
+		else if (is_separator(s[i]))
 		{
-			validate_quote_closure(s, '\"', &i);
-			if (check_char(s[i + 1]))
+			if ((s[i] == '>' || s[i] == '<') && s[i + 1] && s[i] == s[i + 1])
+			{
+				i++;
+				words++;
+			}
+			else
 				words++;
 		}
-		else if (!check_char(s[i]) && check_char(s[i + 1]))
+		else if (!check_char(s[i]) && (check_char(s[i + 1]) || is_separator(s[i + 1])))
 			words++;
 		i++;
 	}
@@ -57,21 +68,26 @@ void	increment_len(char *str, size_t *i, size_t *len, char delim)
 
 // Calcule la longueur du token pour allouer les caractères de chaque string
 // du tableau
-size_t	ft_token_len(char *str)
+size_t	ft_token_len(char *s)
 {
 	size_t	len;
 	size_t	i;
 
 	len = 0;
 	i = 0;
-	while (str[i])
+	if (is_separator(s[0]))
 	{
-		if (check_char(str[i]))
+		if ((s[0] == '>' || s[0] == '<') && s[1] && s[0] == s[1])
+			return (len + 2);
+		else
+			return (len + 1);
+	}
+	while (s[i])
+	{
+		if (check_char(s[i]) || is_separator(s[i]))
 			break ;
-		if (str[i] == '\'')
-			increment_len(str, &i, &len, '\'');
-		else if (str[i] == '\"')
-			increment_len(str, &i, &len, '\"');
+		if (s[i] == '\'' || s[i] == '"')
+			increment_len(s, &i, &len, s[i]);
 		else
 		{
 			i++;
@@ -80,6 +96,14 @@ size_t	ft_token_len(char *str)
 	}
 	return (len);
 }
+
+/* int main(int argc, char **argv)
+{
+	if (argc != 2)
+		return (1);
+	printf("Longueur token : %li\n", ft_token_len(argv[1]));
+	return (0);
+} */
 
 // Copie un token
 char	*token_copy(char *s)

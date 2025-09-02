@@ -110,9 +110,10 @@ void	multiple_commands(t_cmd *cmd, char **envp, pid_t *pids, t_shell *shell)
 	j = 0;
 	while (j < i)
 	{
-		waitpid(pids[j++], &status, 0);
+		waitpid(pids[j], &status, 0);
 		if ((j == i - 1) && WIFEXITED(status))
 			shell->last_exit_code = WEXITSTATUS(status);
+		j++;
 	}
 	free(pids);
 }

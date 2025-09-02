@@ -6,7 +6,10 @@ void	exec_cmd(t_cmd *cmd, char **envp, t_shell *shell)
 
 	expand_remove_quotes_cmd(cmd, shell);
 	if (apply_redirections(cmd->redir, shell) < 0)
+	{
+		shell->last_exit_code = 1;
 		exit(shell->last_exit_code);
+	}
 	if (exec_builtin(cmd, shell))
 		exit(shell->last_exit_code);
 	path = get_path(cmd);

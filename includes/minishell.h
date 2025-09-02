@@ -115,8 +115,15 @@ char	*get_path(t_cmd *cmd);
 void	check_close(int fd);
 void	close_pipe(int *fd);
 
-int apply_redirections(t_redir *redir, t_shell *shell);
+int	apply_redirections(t_redir *redir, t_shell *shell);
 void	run_commands(t_cmd *cmd, char **envp, t_shell *shell);
+
+// BUILT-INS
+
+int	exec_builtin(t_cmd *cmd, t_shell *shell);
+int is_parent_builtin(char *name);
+
+int	ft_exit(char **args, int last_status);
 
 // UTILS
 

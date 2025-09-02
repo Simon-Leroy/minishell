@@ -6,6 +6,7 @@ PARSER_DIR = $(SRC_DIR)/parser
 EXPAND_DIR = $(SRC_DIR)/expander
 EXEC_DIR = $(SRC_DIR)/executor
 UTILS_DIR = $(SRC_DIR)/utils
+BUILTINS_DIR = $(SRC_DIR)/built_ins
 
 
 SRCFILES = \
@@ -38,6 +39,8 @@ SRCFILES = \
 	$(UTILS_DIR)/error.c \
 	$(UTILS_DIR)/free.c \
 	$(UTILS_DIR)/utils.c \
+	$(BUILTINS_DIR)/exec_builtin.c \
+	$(BUILTINS_DIR)/exit.c \
 	main.c
 
 OBJFILES = $(SRCFILES:.c=.o)

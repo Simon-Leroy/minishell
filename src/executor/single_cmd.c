@@ -5,6 +5,11 @@ void	single_command(t_cmd *cmd, char **envp, t_shell *shell)
 	pid_t	pid;
 	int		status;
 
+	if (is_parent_builtin(cmd->commands[0]))
+	{
+		exec_builtin(cmd, shell);
+		return ;
+	}
 	pid = fork();
 	if (pid == 0)
 		exec_cmd(cmd, envp, shell);

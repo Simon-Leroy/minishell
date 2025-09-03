@@ -63,14 +63,14 @@ char	*get_path(t_cmd *cmd)
 	if (!cmd->commands[0])
 	{
 //		ft_free_tab(cmd->commands);
-		perror("could not find command");
+		print_error(cmd->commands[0], 127);
 		exit(127);
 	}
 	path = path_handler(cmd->commands[0]);
 	if (!path)
 	{
 //		ft_free_tab(args);
-		perror("could not find command");
+		print_error(cmd->commands[0], 127);
 		exit(127);
 	}
 	return (path);

@@ -64,6 +64,24 @@ void	remove_quotes_cmd(t_cmd *cmd)
 	}
 }
 
+void	remove_empty_args(t_cmd *cmd)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (cmd->commands[i])
+	{
+		if (cmd->commands[i][0] != '\0')
+			cmd->commands[j++] = cmd->commands[i];
+		else
+			free(cmd->commands[i]);
+		i++;
+	}
+	cmd->commands[j] = NULL;
+}
+
 void	expand_remove_quotes_cmd(t_cmd *cmd, t_shell *shell)
 {
 	if (!cmd)
@@ -71,6 +89,7 @@ void	expand_remove_quotes_cmd(t_cmd *cmd, t_shell *shell)
 	expand_cmd_args(cmd, shell);
 	expand_redirections(cmd->redir, shell);
 	remove_quotes_cmd(cmd);
+	remove_empty_args(cmd);
 }
 
 /* int main(void)

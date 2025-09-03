@@ -128,6 +128,7 @@ int	ft_exit(char **args, int last_status);
 // UTILS
 
 void	set_exit_code_errno(t_shell *shell);
+void	print_error(char *command, int exit_code);
 
 void	ft_free_tab(char **tab);
 void	ft_free_tokens(t_token *list);

@@ -12,6 +12,7 @@
 # include <string.h>
 # include <errno.h>
 # include "../libft/libft.h"
+# include <linux/limits.h>
 
 typedef enum e_token_type
 {
@@ -67,6 +68,14 @@ typedef struct s_shell
 {
 	int				last_exit_code;
 } t_shell;
+
+typedef	struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+} t_env;
+
 
 // LEXER PART
 
@@ -124,6 +133,10 @@ int	exec_builtin(t_cmd *cmd, t_shell *shell);
 int is_parent_builtin(char *name);
 
 int	ft_exit(char **args, int last_status);
+int	ft_pwd(void);
+int	ft_echo(char **args);
+int	ft_cd(char **args);
+
 
 // UTILS
 

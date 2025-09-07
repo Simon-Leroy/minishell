@@ -41,6 +41,9 @@ SRCFILES = \
 	$(UTILS_DIR)/utils.c \
 	$(BUILTINS_DIR)/exec_builtin.c \
 	$(BUILTINS_DIR)/exit.c \
+	$(BUILTINS_DIR)/pwd.c \
+	$(BUILTINS_DIR)/echo.c \
+	$(BUILTINS_DIR)/cd.c \
 	main.c
 
 OBJFILES = $(SRCFILES:.c=.o)

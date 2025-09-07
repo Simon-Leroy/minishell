@@ -14,5 +14,11 @@ int	exec_builtin(t_cmd *cmd, t_shell *shell)
 	{
 		return (ft_exit(cmd->commands, shell->last_exit_code));
 	}
+	if (ft_strcmp(name, "pwd") == 0)
+		return (ft_pwd());
+	if (ft_strcmp(name, "echo") == 0)
+		return (ft_echo(cmd->commands));
+	if (ft_strcmp(name, "cd") == 0)
+		return (ft_cd(cmd->commands));
 	return (0);
 }

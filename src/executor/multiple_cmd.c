@@ -1,6 +1,14 @@
 #include "minishell.h"
 
-int	first_command(t_cmd *cmd, char **envp, pid_t *pid_out, t_shell *shell)
+static void	exec_cmd_and_builtin(t_cmd *cmd, t_shell *shell)
+{
+	if (is_parent_builtin(cmd->commands[0]))
+		exit(exec_builtin(cmd, shell));
+	else
+		exec_cmd(cmd, shell);
+}
+
+int	first_command(t_cmd *cmd, pid_t *pid_out, t_shell *shell)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -19,14 +27,14 @@ int	first_command(t_cmd *cmd, char **envp, pid_t *pid_out, t_shell *shell)
 			exit(EXIT_FAILURE);
 		}
 		check_close(fd[1]);
-		exec_cmd(cmd, envp, shell);
+		exec_cmd_and_builtin(cmd, shell);
 	}
 	*pid_out = pid;
 	check_close(fd[1]);
 	return (fd[0]);
 }
 
-int	middle_pipes(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shell)
+int	middle_pipes(t_cmd *cmd, int *fd, pid_t *pid_out, t_shell *shell)
 {
 	int		fd_pipe[2];
 	pid_t	pid;
@@ -47,7 +55,7 @@ int	middle_pipes(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shel
 		}
 		close_pipe(fd);
 		close_pipe(fd_pipe);
-		exec_cmd(cmd, envp, shell);
+		exec_cmd_and_builtin(cmd, shell);
 	}
 	else
 	{
@@ -59,7 +67,7 @@ int	middle_pipes(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shel
 	return (0);
 }
 
-int	last_command(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shell)
+int	last_command(t_cmd *cmd, int *fd, pid_t *pid_out, t_shell *shell)
 {
 	pid_t	pid;
 
@@ -76,7 +84,7 @@ int	last_command(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shel
 			exit(EXIT_FAILURE);
 		}
 		check_close(fd[0]);
-		exec_cmd(cmd, envp, shell);
+		exec_cmd_and_builtin(cmd, shell);
 	}
 	else
 	{
@@ -86,27 +94,27 @@ int	last_command(t_cmd *cmd, char **envp, int *fd, pid_t *pid_out, t_shell *shel
 	return (0);
 }
 
-void	multiple_commands(t_cmd *cmd, char **envp, pid_t *pids, t_shell *shell)
+void	multiple_commands(t_cmd *cmd, pid_t *pids, t_shell *shell)
 {
 	size_t	i;
 	size_t	j;
 	int		fd[2];
-	int status;
+	int		status;
 	t_cmd	*tmp;
 
 	tmp = cmd;
 	i = 0;
 	fd[0] = -1;
 	fd[1] = -1;
-	fd[0] = first_command(tmp, envp, &pids[i++], shell);
+	fd[0] = first_command(tmp, &pids[i++], shell);
 	tmp = tmp->next;
 	while (tmp && tmp->next)
 	{
-		middle_pipes(tmp, envp, fd, &pids[i++], shell);
+		middle_pipes(tmp, fd, &pids[i++], shell);
 		tmp = tmp->next;
 	}
 	if (tmp)
-		last_command(tmp, envp, fd, &pids[i++], shell);
+		last_command(tmp, fd, &pids[i++], shell);
 	j = 0;
 	while (j < i)
 	{

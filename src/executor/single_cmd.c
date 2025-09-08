@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	single_command(t_cmd *cmd, char **envp, t_shell *shell)
+void	single_command(t_cmd *cmd, t_shell *shell)
 {
 	pid_t	pid;
 	int		status;
@@ -12,7 +12,7 @@ void	single_command(t_cmd *cmd, char **envp, t_shell *shell)
 	}
 	pid = fork();
 	if (pid == 0)
-		exec_cmd(cmd, envp, shell);
+		exec_cmd(cmd, shell);
 	else
 	{
 		waitpid(pid, &status, 0);

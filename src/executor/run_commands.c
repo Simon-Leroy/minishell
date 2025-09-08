@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	run_commands(t_cmd *cmd, char **envp, t_shell *shell)
+void	run_commands(t_cmd *cmd, t_shell *shell)
 {
 	size_t	nbr_commands;
 	pid_t	*pids;
@@ -8,7 +8,10 @@ void	run_commands(t_cmd *cmd, char **envp, t_shell *shell)
 	nbr_commands = get_nbr_commands(cmd);
 	if (nbr_commands == 1)
 	{
-		single_command(cmd, envp, shell);
+		if (is_parent_builtin(cmd->commands[0]))
+			shell->last_exit_code = exec_builtin(cmd, shell);
+		else
+			single_command(cmd, shell);
 	}
 	else if (nbr_commands > 1)
 	{
@@ -19,6 +22,6 @@ void	run_commands(t_cmd *cmd, char **envp, t_shell *shell)
 			shell->last_exit_code = 1;
 			return ;
 		}
-		multiple_commands(cmd, envp, pids, shell);
+		multiple_commands(cmd, pids, shell);
 	}
 }

@@ -3,7 +3,7 @@
 int is_parent_builtin(char *name)
 {
 	return (!ft_strcmp(name, "exit") || !ft_strcmp(name, "export")
-			|| !ft_strcmp(name, "env"));
+			|| !ft_strcmp(name, "env") || !ft_strcmp(name, "cd"));
 }
 
 int	exec_builtin(t_cmd *cmd, t_shell *shell)

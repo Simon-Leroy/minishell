@@ -13,12 +13,11 @@ int main(int argc, char **argv, char **envp)
 	t_token *tokens;
 	t_cmd	*cmd;
 	char	*input;
-//	t_cmd	*tmp;
-
 
 	(void)argc;
 	(void)argv;
 	shell.last_exit_code = 0;
+	shell.env = init_env(envp);
 	while (1)
 	{
 		input = readline("minishell> ");
@@ -31,8 +30,7 @@ int main(int argc, char **argv, char **envp)
 			add_history(input);
 		tokens = list_tokens(input);
 		cmd = link_cmd_redir(tokens);
-//		tmp = cmd;
-		run_commands(cmd, envp, &shell);
+		run_commands(cmd, &shell);
 		free_mem(cmd, tokens, input);
 	}
 	return (0);

@@ -64,17 +64,18 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 } t_cmd;
 
-typedef struct s_shell
-{
-	int				last_exit_code;
-} t_shell;
-
 typedef	struct s_env
 {
-	char			*name;
+	char			*key;
 	char			*value;
 	struct s_env	*next;
 } t_env;
+
+typedef struct s_shell
+{
+	int				last_exit_code;
+	t_env			*env;
+} t_shell;
 
 
 // LEXER PART
@@ -114,28 +115,34 @@ size_t	expanded_len(char *str, t_shell *shell);
 // EXECUTOR PART
 
 size_t	get_nbr_commands(t_cmd *cmd);
-void	exec_cmd(t_cmd *cmd, char **envp, t_shell *shell);
+void	exec_cmd(t_cmd *cmd, t_shell *shell);
 int	handle_heredoc(t_token *tok, int heredoc_count);
 
-void	single_command(t_cmd *cmd, char **envp, t_shell *shell);
-void	multiple_commands(t_cmd *cmd, char **envp, pid_t *pids, t_shell *shell);
+void	single_command(t_cmd *cmd, t_shell *shell);
+void	multiple_commands(t_cmd *cmd, pid_t *pids, t_shell *shell);
 char	*get_path(t_cmd *cmd);
 
 void	check_close(int fd);
 void	close_pipe(int *fd);
 
 int	apply_redirections(t_redir *redir, t_shell *shell);
-void	run_commands(t_cmd *cmd, char **envp, t_shell *shell);
+void	run_commands(t_cmd *cmd, t_shell *shell);
 
 // BUILT-INS
 
 int	exec_builtin(t_cmd *cmd, t_shell *shell);
 int is_parent_builtin(char *name);
 
+void	set_env(t_env **env, char *key, char *value);
+t_env	*init_env(char **envp);
+char	**build_envp(t_env *env);
+
 int	ft_exit(char **args, int last_status);
 int	ft_pwd(void);
 int	ft_echo(char **args);
 int	ft_cd(char **args);
+int	ft_env(t_shell *shell);
+int	ft_export(char **args, t_env **env);
 
 
 // UTILS

@@ -154,6 +154,7 @@ void	ft_free_tab(char **tab);
 void	ft_free_tokens(t_token *list);
 void	ft_free_redir(t_redir *redir);
 void	ft_free_full_cmd(t_cmd *cmd);
+void	ft_free_env(t_env *env);
 
 int	int_len(int nb);
 int	ft_strcmp(char *s1, char *s2);

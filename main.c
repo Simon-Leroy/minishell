@@ -33,5 +33,6 @@ int main(int argc, char **argv, char **envp)
 		run_commands(cmd, &shell);
 		free_mem(cmd, tokens, input);
 	}
+	ft_free_env(shell.env);
 	return (0);
 }

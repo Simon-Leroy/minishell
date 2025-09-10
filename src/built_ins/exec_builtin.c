@@ -3,7 +3,8 @@
 int is_parent_builtin(char *name)
 {
 	return (!ft_strcmp(name, "exit") || !ft_strcmp(name, "export")
-			|| !ft_strcmp(name, "env") || !ft_strcmp(name, "cd"));
+			|| !ft_strcmp(name, "env") || !ft_strcmp(name, "cd")
+			|| !ft_strcmp(name, "unset"));
 }
 
 int	exec_builtin(t_cmd *cmd, t_shell *shell)
@@ -23,5 +24,7 @@ int	exec_builtin(t_cmd *cmd, t_shell *shell)
 		return (ft_env(shell));
 	if (ft_strcmp(name, "export") == 0)
 		return (ft_export(cmd->commands, &shell->env));
+	if (ft_strcmp(name, "unset") == 0)
+		return (ft_unset(cmd->commands, &shell->env));
 	return (-1);
 }

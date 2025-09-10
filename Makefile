@@ -46,6 +46,7 @@ SRCFILES = \
 	$(BUILTINS_DIR)/cd.c \
 	$(BUILTINS_DIR)/export.c \
 	$(BUILTINS_DIR)/env.c \
+	$(BUILTINS_DIR)/unset.c \
 	main.c
 
 OBJFILES = $(SRCFILES:.c=.o)

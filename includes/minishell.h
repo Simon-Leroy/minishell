@@ -136,6 +136,7 @@ int is_parent_builtin(char *name);
 void	set_env(t_env **env, char *key, char *value);
 t_env	*init_env(char **envp);
 char	**build_envp(t_env *env);
+int	is_valid_identifier(char *str);
 
 int	ft_exit(char **args, int last_status);
 int	ft_pwd(void);
@@ -143,6 +144,7 @@ int	ft_echo(char **args);
 int	ft_cd(char **args);
 int	ft_env(t_shell *shell);
 int	ft_export(char **args, t_env **env);
+int	ft_unset(char **args, t_env **env);
 
 
 // UTILS

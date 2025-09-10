@@ -1,11 +1,11 @@
 #include "minishell.h"
 
-char	**ft_split_getenv(void)
+char	**ft_split_getenv(t_env *env)
 {
 	char	*path_str;
 	char	**paths;
 
-	path_str = getenv("PATH");
+	path_str = get_env_value(env, "PATH");
 	if (!path_str)
 		return (NULL);
 	paths = ft_split(path_str, ':');
@@ -14,14 +14,14 @@ char	**ft_split_getenv(void)
 	return (paths);
 }
 
-char	*ft_get_abs_path(char *cmd)
+char	*ft_get_abs_path(char *cmd, t_env *env)
 {
 	char	**env_path;
 	char	*temp_path;
 	char	*try_path;
 	int		i;
 
-	env_path = ft_split_getenv();
+	env_path = ft_split_getenv(env);
 	if (!env_path)
 		return (NULL);
 	i = 0;
@@ -43,7 +43,7 @@ char	*ft_get_abs_path(char *cmd)
 	return (NULL);
 }
 
-char	*path_handler(char *cmd)
+char	*path_handler(char *cmd, t_env *env)
 {
 	char	*abs_path;
 
@@ -51,12 +51,12 @@ char	*path_handler(char *cmd)
 		return (cmd);
 	else
 	{
-		abs_path = ft_get_abs_path(cmd);
+		abs_path = ft_get_abs_path(cmd, env);
 		return (abs_path);
 	}
 }
 
-char	*get_path(t_cmd *cmd)
+char	*get_path(t_cmd *cmd, t_env *env)
 {
 	char	*path;
 
@@ -66,7 +66,7 @@ char	*get_path(t_cmd *cmd)
 		print_error(cmd->commands[0], 127);
 		exit(127);
 	}
-	path = path_handler(cmd->commands[0]);
+	path = path_handler(cmd->commands[0], env);
 	if (!path)
 	{
 //		ft_free_tab(args);

@@ -24,6 +24,7 @@ SRCFILES = \
 	$(EXPAND_DIR)/expander_quotes.c \
 	$(EXPAND_DIR)/var_copy.c \
 	$(EXPAND_DIR)/var_len.c \
+	$(EXPAND_DIR)/get_env_value.c \
 	$(LEXER_DIR)/lexer.c \
 	$(LEXER_DIR)/token_list.c \
 	$(LEXER_DIR)/token_types.c \

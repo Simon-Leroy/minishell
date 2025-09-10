@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	handle_env_var(char *str, size_t *i, size_t *len)
+void	handle_env_var(char *str, size_t *i, size_t *len, t_env *env)
 {
 	char	*var_name;
 	char	*var_value;
@@ -8,7 +8,7 @@ void	handle_env_var(char *str, size_t *i, size_t *len)
 	var_name = extract_var_name(&str[*i]);
 	if (var_name)
 	{
-		var_value = getenv(var_name);
+		var_value = get_env_value(env, var_name);
 		if (var_value)
 			*len += ft_strlen(var_value);
 		free(var_name);
@@ -21,7 +21,7 @@ void	handle_env_var(char *str, size_t *i, size_t *len)
 void	process_var_len(char *str, size_t *i, size_t *len, t_shell *shell)
 {
 	if (classify_dollar(str[*i + 1]) == ENV_VAR)
-		handle_env_var(str, i, len);
+		handle_env_var(str, i, len, shell->env);
 	else if (classify_dollar(str[*i + 1]) == EXIT_STATUS)
 	{
 		*len += int_len(shell->last_exit_code);

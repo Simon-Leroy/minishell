@@ -12,7 +12,7 @@ void	exec_cmd(t_cmd *cmd, t_shell *shell)
 	ret = exec_builtin(cmd, shell);
 	if (ret != -1)
 		exit(ret);
-	path = get_path(cmd);
+	path = get_path(cmd, shell->env);
 	if (!path)
 	{
 		printf("%s: command not found\n", cmd->commands[0]);

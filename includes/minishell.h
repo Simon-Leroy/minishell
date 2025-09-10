@@ -111,6 +111,7 @@ char	*remove_quotes(char *str);
 t_env_var_type classify_dollar(char c);
 void	process_env_var_copy(char *str, size_t *i, char *exp, size_t *k, t_shell *shell);
 size_t	expanded_len(char *str, t_shell *shell);
+char	*get_env_value(t_env *env, char *key);
 
 // EXECUTOR PART
 
@@ -120,7 +121,7 @@ int	handle_heredoc(t_token *tok, int heredoc_count);
 
 void	single_command(t_cmd *cmd, t_shell *shell);
 void	multiple_commands(t_cmd *cmd, pid_t *pids, t_shell *shell);
-char	*get_path(t_cmd *cmd);
+char	*get_path(t_cmd *cmd, t_env *env);
 
 void	check_close(int fd);
 void	close_pipe(int *fd);

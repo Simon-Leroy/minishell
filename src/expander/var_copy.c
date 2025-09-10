@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	copy_env_var_type(char *str, size_t *i, char *exp, size_t *k)
+void	copy_env_var_type(char *str, size_t *i, char *exp, size_t *k, t_env *env)
 {
 	char	*var_name;
 	char	*var_value;
@@ -9,7 +9,7 @@ void	copy_env_var_type(char *str, size_t *i, char *exp, size_t *k)
 	var_name = extract_var_name(&str[*i]);
 	if (var_name)
 	{
-		var_value = getenv(var_name);
+		var_value = get_env_value(env, var_name);
 		if (var_value)
 		{
 			j = 0;
@@ -28,7 +28,7 @@ void	process_env_var_copy(char *str, size_t *i, char *exp, size_t *k, t_shell *s
 	size_t	j;
 
 	if (classify_dollar(str[*i + 1]) == ENV_VAR)
-		copy_env_var_type(str, i, exp, k);
+		copy_env_var_type(str, i, exp, k, shell->env);
 	else if (classify_dollar(str[*i + 1]) == EXIT_STATUS)
 	{
 		var_value = ft_itoa(shell->last_exit_code);

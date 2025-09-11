@@ -11,6 +11,15 @@ void	print_error(char *command, int exit_code)
 		write(2, "Permission denied\n", 18);
 }
 
+void	write_error(char *cmd, char *msg)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(msg, 2);
+	ft_putstr_fd("\n", 2);
+}
+
 void	set_exit_code_errno(t_shell *shell)
 {
 	if (errno == ENOENT)

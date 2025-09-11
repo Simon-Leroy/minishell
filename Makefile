@@ -19,6 +19,7 @@ SRCFILES = \
 	$(EXEC_DIR)/redirections.c \
 	$(EXEC_DIR)/run_commands.c \
 	$(EXEC_DIR)/single_cmd.c \
+	$(EXEC_DIR)/check_path.c \
 	$(EXPAND_DIR)/dollar_classify.c \
 	$(EXPAND_DIR)/expand.c \
 	$(EXPAND_DIR)/expander_quotes.c \

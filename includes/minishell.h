@@ -13,6 +13,7 @@
 # include <errno.h>
 # include "../libft/libft.h"
 # include <linux/limits.h>
+# include <sys/stat.h>
 
 typedef enum e_token_type
 {
@@ -117,6 +118,7 @@ char	*get_env_value(t_env *env, char *key);
 
 size_t	get_nbr_commands(t_cmd *cmd);
 void	exec_cmd(t_cmd *cmd, t_shell *shell);
+void check_path(char *cmd, char *path, t_shell *shell);
 int	handle_heredoc(t_token *tok, int heredoc_count);
 
 void	single_command(t_cmd *cmd, t_shell *shell);
@@ -152,6 +154,7 @@ int	ft_unset(char **args, t_env **env);
 
 void	set_exit_code_errno(t_shell *shell);
 void	print_error(char *command, int exit_code);
+void	write_error(char *cmd, char *msg);
 
 void	ft_free_tab(char **tab);
 void	ft_free_tokens(t_token *list);

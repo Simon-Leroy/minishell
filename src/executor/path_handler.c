@@ -47,31 +47,20 @@ char	*path_handler(char *cmd, t_env *env)
 {
 	char	*abs_path;
 
-	if (access(cmd, F_OK) == 0)
-		return (cmd);
-	else
+	if (ft_strchr(cmd, '/'))
 	{
-		abs_path = ft_get_abs_path(cmd, env);
-		return (abs_path);
+		if (access(cmd, F_OK) == 0 || errno == ENOENT)
+			return (ft_strdup(cmd));
+		else
+			return (ft_strdup(cmd));
 	}
+	abs_path = ft_get_abs_path(cmd, env);
+	return (abs_path);
 }
 
 char	*get_path(t_cmd *cmd, t_env *env)
 {
-	char	*path;
-
 	if (!cmd->commands[0])
-	{
-//		ft_free_tab(cmd->commands);
-		print_error(cmd->commands[0], 127);
-		exit(127);
-	}
-	path = path_handler(cmd->commands[0], env);
-	if (!path)
-	{
-//		ft_free_tab(args);
-		print_error(cmd->commands[0], 127);
-		exit(127);
-	}
-	return (path);
+		return (NULL);
+	return (path_handler(cmd->commands[0], env));
 }

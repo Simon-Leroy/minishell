@@ -28,6 +28,7 @@ SRCFILES = \
 	$(EXPAND_DIR)/get_env_value.c \
 	$(LEXER_DIR)/lexer.c \
 	$(LEXER_DIR)/token_list.c \
+	$(LEXER_DIR)/token_list_check.c \
 	$(LEXER_DIR)/token_types.c \
 	$(LEXER_DIR)/tokenizer_utils.c \
 	$(LEXER_DIR)/tokenizer.c \

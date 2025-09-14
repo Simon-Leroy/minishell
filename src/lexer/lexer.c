@@ -2,7 +2,7 @@
 
 // Split la string en tokens puis forme une liste chaînée
 // avec tous les tokens produits -> 1 noeud = 1 token
-t_token	*list_tokens(char *str)
+t_token	*list_tokens(char *str, t_shell *shell)
 {
 	t_token	*list;
 	char	**tokens;
@@ -21,5 +21,10 @@ t_token	*list_tokens(char *str)
 		i++;
 	}
 	ft_free_tab(tokens);
+	if (check_tokens(list, shell))
+	{
+		ft_free_tokens(list);
+		return (NULL);
+	}
 	return (list);
 }

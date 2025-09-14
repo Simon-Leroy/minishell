@@ -19,7 +19,7 @@ int	exec_builtin(t_cmd *cmd, t_shell *shell)
 	if (ft_strcmp(name, "echo") == 0)
 		return (ft_echo(cmd->commands));
 	if (ft_strcmp(name, "cd") == 0)
-		return (ft_cd(cmd->commands));
+		return (ft_cd(cmd->commands, shell->env));
 	if (ft_strcmp(name, "env") == 0)
 		return (ft_env(shell));
 	if (ft_strcmp(name, "export") == 0)

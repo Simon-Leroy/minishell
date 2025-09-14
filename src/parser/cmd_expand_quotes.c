@@ -38,29 +38,40 @@ void	expand_redirections(t_redir *redir, t_shell *shell)
 	}
 }
 
-void	remove_quotes_cmd(t_cmd *cmd)
+void remove_quotes_args(t_cmd *cmd)
 {
-	t_cmd	*tmp_cmd;
-	t_redir	*tmp_redir;
-	char	*no_quotes;
-	int		i;
+	int i;
+	char *no_quotes;
 
-	tmp_cmd = cmd;
+	if (!cmd || !cmd->commands)
+		return ;
 	i = 0;
-	while (tmp_cmd && tmp_cmd->commands[i])
+	while (cmd->commands[i])
 	{
-		no_quotes = remove_quotes(tmp_cmd->commands[i]);
-		free(tmp_cmd->commands[i]);
-		tmp_cmd->commands[i] = no_quotes;
+		no_quotes = remove_quotes(cmd->commands[i]);
+		free(cmd->commands[i]);
+		cmd->commands[i] = no_quotes;
 		i++;
-		tmp_redir = tmp_cmd->redir;
-		while (tmp_redir)
+	}
+}
+
+void remove_quotes_redir(t_cmd *cmd)
+{
+	t_redir *tmp_redir;
+	char *no_quotes;
+
+	if (!cmd || !cmd->redir)
+		return ;
+	tmp_redir = cmd->redir;
+	while (tmp_redir)
+	{
+		if (tmp_redir->filename)
 		{
 			no_quotes = remove_quotes(tmp_redir->filename);
 			free(tmp_redir->filename);
 			tmp_redir->filename = no_quotes;
-			tmp_redir = tmp_redir->next;
 		}
+		tmp_redir = tmp_redir->next;
 	}
 }
 
@@ -88,35 +99,7 @@ void	expand_remove_quotes_cmd(t_cmd *cmd, t_shell *shell)
 		return ;
 	expand_cmd_args(cmd, shell);
 	expand_redirections(cmd->redir, shell);
-	remove_quotes_cmd(cmd);
+	remove_quotes_args(cmd);
+	remove_quotes_redir(cmd);
 	remove_empty_args(cmd);
 }
-
-/* int main(void)
-{
-	char *test = "bonjour $9USER < infile | cat >> $HOME/text.txt | grep $HOME.non | test $0HOME$ $=USER$";
-
-	t_token *tokens;
-	t_cmd	*cmd;
-	t_cmd	*tmp;
-
-	tokens = list_tokens(test);
-	cmd = link_cmd_redir(tokens);
-	expand_cmd(cmd);
- 	tmp = cmd;
-	while (tmp)
-	{
-		printf("Command:\n");
-		for (int i = 0; tmp->commands[i]; i++)
-			printf("  - %s\n", tmp->commands[i]);
-		t_redir *r = tmp->redir;
-		while (r)
-		{
-			printf("  Redirection: type %d → %s\n", r->type, r->filename);
-			r = r->next;
-		}
-		tmp = tmp->next;
-	}
-	ft_free_tokens(tokens);
-	ft_free_full_cmd(cmd);
-} */

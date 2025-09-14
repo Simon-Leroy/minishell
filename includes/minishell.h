@@ -81,7 +81,7 @@ typedef struct s_shell
 
 // LEXER PART
 
-t_token	*list_tokens(char *str);
+t_token	*list_tokens(char *str, t_shell *shell);
 int	append_token(t_token **list, char *value, t_token_type type);
 t_token_type get_t_type(char *str);
 char	*token_copy(char *s);
@@ -90,6 +90,7 @@ int	tokens_count(char *s);
 size_t	ft_token_len(char *str);
 int	check_char(char c);
 char	**ft_tokenize(char *s);
+int	check_tokens(t_token *tokens, t_shell *shell);
 
 // PARSER PART
 
@@ -144,11 +145,10 @@ int	is_valid_identifier(char *str);
 int	ft_exit(char **args, int last_status);
 int	ft_pwd(void);
 int	ft_echo(char **args);
-int	ft_cd(char **args);
+int	ft_cd(char **args, t_env *env);
 int	ft_env(t_shell *shell);
 int	ft_export(char **args, t_env **env);
 int	ft_unset(char **args, t_env **env);
-
 
 // UTILS
 

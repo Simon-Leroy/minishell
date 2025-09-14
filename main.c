@@ -28,11 +28,13 @@ int main(int argc, char **argv, char **envp)
 		}
 		if (*input)
 			add_history(input);
-		tokens = list_tokens(input);
+		tokens = list_tokens(input, &shell);
 		cmd = link_cmd_redir(tokens);
-		run_commands(cmd, &shell);
+		if (cmd)
+			run_commands(cmd, &shell);
 		free_mem(cmd, tokens, input);
 	}
+	rl_clear_history();
 	ft_free_env(shell.env);
 	return (0);
 }

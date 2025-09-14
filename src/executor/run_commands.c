@@ -2,22 +2,22 @@
 
 int validate_redirections(t_redir *redir, t_shell *shell)
 {
-    int fd;
+	int fd;
 
-    while (redir)
-    {
-        if (redir->type == INPUT || redir->type == HEREDOC)
-            fd = open(redir->filename, O_RDONLY);
-        else if (redir->type == OUTPUT)
-            fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-        else if (redir->type == APPEND)
-            fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-        if (fd < 0)
-            return (set_exit_code_errno(shell), perror(redir->filename), -1);
-        close(fd);
-        redir = redir->next;
-    }
-    return (0);
+	while (redir)
+	{
+		if (redir->type == INPUT || redir->type == HEREDOC)
+			fd = open(redir->filename, O_RDONLY);
+		else if (redir->type == OUTPUT)
+			fd = open(redir->filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (redir->type == APPEND)
+			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd < 0)
+		return (set_exit_code_errno(shell), perror(redir->filename), -1);
+		close(fd);
+		redir = redir->next;
+	}
+	return (0);
 }
 
 void	run_commands(t_cmd *cmd, t_shell *shell)

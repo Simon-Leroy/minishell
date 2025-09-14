@@ -46,25 +46,19 @@ void check_permission_denied(char *cmd, char *path, t_shell *shell)
 
 void check_path(char *cmd, char *path, t_shell *shell)
 {
-    // Case 1: path contains '/' → explicit path
-    if (ft_strchr(cmd, '/'))
-    {
-        // file does not exist
-        if (!path || access(path, F_OK) != 0)
-        {
-            write_error(cmd, "No such file or directory");
-            shell->last_exit_code = 127;
-            exit(shell->last_exit_code);
-        }
-
-        check_is_directory(cmd, path, shell);
-        check_permission_denied(cmd, path, shell);
-    }
-    // Case 2: command without '/' → search in PATH
-    else
-    {
-        check_command_not_found(cmd, path, shell);
-    }
+	if (ft_strchr(cmd, '/'))
+	{
+		if (!path || access(path, F_OK) != 0)
+		{
+			write_error(cmd, "No such file or directory");
+			shell->last_exit_code = 127;
+			exit(shell->last_exit_code);
+		}
+		check_is_directory(cmd, path, shell);
+		check_permission_denied(cmd, path, shell);
+	}
+	else
+		check_command_not_found(cmd, path, shell);
 }
 
 

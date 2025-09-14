@@ -107,5 +107,5 @@ void	print_env(t_env *env)
 int	ft_env(t_shell *shell)
 {
 	print_env(shell->env);
-	return (0); // exit code
+	return (0);
 }

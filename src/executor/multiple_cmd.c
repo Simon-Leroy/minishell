@@ -15,6 +15,7 @@ int	first_command(t_cmd *cmd, pid_t *pid_out, t_shell *shell)
 
 	if (pipe(fd) == -1)
 		return (-1);
+	ignore_signal();
 	pid = fork();
 	if (pid < 0)
 		return (2);
@@ -27,6 +28,7 @@ int	first_command(t_cmd *cmd, pid_t *pid_out, t_shell *shell)
 			exit(EXIT_FAILURE);
 		}
 		check_close(fd[1]);
+		restore_signal();
 		exec_cmd_and_builtin(cmd, shell);
 	}
 	*pid_out = pid;
@@ -41,6 +43,7 @@ int	middle_pipes(t_cmd *cmd, int *fd, pid_t *pid_out, t_shell *shell)
 
 	if (pipe(fd_pipe) == -1)
 		return (1);
+	ignore_signal();
 	pid = fork();
 	if (pid < 0)
 		return (2);
@@ -55,6 +58,7 @@ int	middle_pipes(t_cmd *cmd, int *fd, pid_t *pid_out, t_shell *shell)
 		}
 		close_pipe(fd);
 		close_pipe(fd_pipe);
+		restore_signal();
 		exec_cmd_and_builtin(cmd, shell);
 	}
 	else
@@ -71,6 +75,7 @@ int	last_command(t_cmd *cmd, int *fd, pid_t *pid_out, t_shell *shell)
 {
 	pid_t	pid;
 
+	ignore_signal();
 	pid = fork();
 	if (pid < 0)
 		return (2);
@@ -84,6 +89,7 @@ int	last_command(t_cmd *cmd, int *fd, pid_t *pid_out, t_shell *shell)
 			exit(EXIT_FAILURE);
 		}
 		check_close(fd[0]);
+		restore_signal();
 		exec_cmd_and_builtin(cmd, shell);
 	}
 	else
@@ -106,6 +112,7 @@ void	multiple_commands(t_cmd *cmd, pid_t *pids, t_shell *shell)
 	i = 0;
 	fd[0] = -1;
 	fd[1] = -1;
+	ignore_signal();
 	fd[0] = first_command(tmp, &pids[i++], shell);
 	tmp = tmp->next;
 	while (tmp && tmp->next)
@@ -119,9 +126,20 @@ void	multiple_commands(t_cmd *cmd, pid_t *pids, t_shell *shell)
 	while (j < i)
 	{
 		waitpid(pids[j], &status, 0);
-		if ((j == i - 1) && WIFEXITED(status))
-			shell->last_exit_code = WEXITSTATUS(status);
+		if (j == i - 1)
+		{
+			if (WIFEXITED(status))
+				shell->last_exit_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			{
+				shell->last_exit_code = 130;
+				write(1, "\n", 1);
+			}
+			else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+				shell->last_exit_code = 131;
+		}
 		j++;
 	}
+	setup_signal();
 	free(pids);
 }

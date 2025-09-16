@@ -42,6 +42,7 @@ SRCFILES = \
 	$(UTILS_DIR)/error.c \
 	$(UTILS_DIR)/free.c \
 	$(UTILS_DIR)/utils.c \
+	$(UTILS_DIR)/signal_handler.c \
 	$(BUILTINS_DIR)/exec_builtin.c \
 	$(BUILTINS_DIR)/exit.c \
 	$(BUILTINS_DIR)/pwd.c \

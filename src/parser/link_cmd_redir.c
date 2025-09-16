@@ -4,20 +4,22 @@
 // où chaque noeud contient:
 // -le tableau de commandes (pour execve)
 // -la liste de redirections associée à chaque commande
-t_cmd	*link_cmd_redir(t_token *tok)
+t_cmd	*link_cmd_redir(t_token *tok, t_shell *shell)
 {
 	t_cmd	*cmd;
 	t_token	*curr_tok;
 	t_token	*block_start;
 	t_redir	*redir;
+	int		heredoc_count;
 
 	curr_tok = tok;
 	cmd = NULL;
+	heredoc_count = 0;
 	while (curr_tok)
 	{
 		redir = NULL;
 		block_start = curr_tok;
-		if (!extract_redir(&curr_tok, &redir))
+		if (!extract_redir(&curr_tok, &redir, shell, &heredoc_count))
 			return (ft_free_redir(redir), NULL);
 		if (!append_cmd(&cmd, block_start, redir))
 			return (ft_free_full_cmd(cmd), NULL);

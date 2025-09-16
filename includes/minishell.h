@@ -15,6 +15,10 @@
 # include <linux/limits.h>
 # include <sys/stat.h>
 
+# define _XOPEN_SOURCE 700
+
+extern volatile sig_atomic_t g_signal;
+
 typedef enum e_token_type
 {
 	PIPE,
@@ -98,12 +102,12 @@ int	append_cmd(t_cmd **head, t_token *tok, t_redir *redir);
 void	expand_remove_quotes_cmd(t_cmd *cmd, t_shell *shell);
 t_cmd	*ft_lst_last_cmd(t_cmd *list);
 size_t	nb_cmd_by_block(t_token	*tokens);
-t_cmd	*link_cmd_redir(t_token *tok);
+t_cmd	*link_cmd_redir(t_token *tok, t_shell *shell);
 
 int	has_closed_quotes(char *str);
 int	validate_quote_closure(char *str, char delim, size_t *index);
 int	append_redir(t_redir **head, t_token *tok);
-int	extract_redir(t_token **tok, t_redir **redir);
+int	extract_redir(t_token **tok, t_redir **redir, t_shell *shell, int *heredoc_count);
 
 // EXPANDER PART
 
@@ -120,7 +124,7 @@ char	*get_env_value(t_env *env, char *key);
 size_t	get_nbr_commands(t_cmd *cmd);
 void	exec_cmd(t_cmd *cmd, t_shell *shell);
 void check_path(char *cmd, char *path, t_shell *shell);
-int	handle_heredoc(t_token *tok, int heredoc_count);
+int	handle_heredoc(t_token *tok, int heredoc_count, t_shell *shell);
 
 void	single_command(t_cmd *cmd, t_shell *shell);
 void	multiple_commands(t_cmd *cmd, pid_t *pids, t_shell *shell);
@@ -161,6 +165,13 @@ void	ft_free_tokens(t_token *list);
 void	ft_free_redir(t_redir *redir);
 void	ft_free_full_cmd(t_cmd *cmd);
 void	ft_free_env(t_env *env);
+
+void	sigint_handler(int	signum);
+void	sigquit_handler(int signum);
+void	restore_signal(void);
+void	ignore_signal(void);
+void	setup_signal(void);
+
 
 int	int_len(int nb);
 int	ft_strcmp(char *s1, char *s2);

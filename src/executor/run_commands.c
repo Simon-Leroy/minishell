@@ -27,7 +27,6 @@ void	run_commands(t_cmd *cmd, t_shell *shell)
 
 	if (!cmd)
 	{
-		printf("BONJOUR\n");
 		shell->last_exit_code = 2;
 		return ;
 	}

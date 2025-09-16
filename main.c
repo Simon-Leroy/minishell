@@ -7,6 +7,8 @@ void	free_mem(t_cmd *cmd, t_token *tokens, char *input)
 	free(input);
 }
 
+volatile sig_atomic_t	g_signal;
+
 int main(int argc, char **argv, char **envp)
 {
 	t_shell shell;
@@ -18,18 +20,24 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	shell.last_exit_code = 0;
 	shell.env = init_env(envp);
+	setup_signal();
 	while (1)
 	{
 		input = readline("minishell> ");
 		if (!input)
 		{
-			printf("exit\n");
+			write(1, "exit\n", 5);
 			break ;
+		}
+		if (g_signal == SIGINT)
+		{
+			shell.last_exit_code = 130;
+			g_signal = 0;
 		}
 		if (*input)
 			add_history(input);
 		tokens = list_tokens(input, &shell);
-		cmd = link_cmd_redir(tokens);
+		cmd = link_cmd_redir(tokens, &shell);
 		if (cmd)
 			run_commands(cmd, &shell);
 		free_mem(cmd, tokens, input);

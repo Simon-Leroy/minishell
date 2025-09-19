@@ -1,44 +1,53 @@
 #include "minishell.h"
 
-char	*generate_tmp_filename(int	i)
+static char	*init_heredoc_fd(int file_number, int *fd)
 {
-	char	*prefix;
-	char	*nbr;
 	char	*filename;
 
-	prefix = "/tmp/.heredoc_";
-	nbr = ft_itoa(i);
-	if (!nbr)
+	filename = generate_tmp_filename(file_number);
+	if (!filename)
 		return (NULL);
-	filename = ft_strjoin(prefix, nbr);
-	free(nbr);
+	*fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (*fd < 0)
+	{
+		free(filename);
+		return (NULL);
+	}
 	return (filename);
 }
 
-void	write_heredoc_input(char *str, int fd)
+static void		heredoc_prompt_loop(char *eof, int fd)
 {
-	write(fd, str, ft_strlen(str));
-	write(fd, "\n", 1);
-}
+	char	*input;
 
-static void	write_heredoc_eof_error(char *eof)
-{
-	write(2, "minishell: ", 11);
-	write(2, "warning: here-document delimited by end-of-file ", 48);
-	write(2, "(wanted '", 9);
-	write(2, eof, ft_strlen(eof));
-	write(2,"')\n", 3);
+	while (1)
+	{
+		input = readline("> ");
+		if (!input)
+		{
+			write_heredoc_eof_error(eof);
+			break;
+		}
+		if (ft_strcmp(input, eof) == 0)
+		{
+			free(input);
+			break;
+		}
+		write_heredoc_input(input, fd);
+		free(input);
+	}
 }
 
 int heredoc_fd(char *eof, int file_number)
 {
-	char *filename = generate_tmp_filename(file_number);
-	int fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	char *filename;
+	int fd;
 	pid_t pid;
 	int status;
 
-	if (fd < 0)
-		return (free(filename), -1);
+	filename = init_heredoc_fd(file_number, &fd);
+	if (!filename)
+		return (-1);
 	ignore_signal();
 	pid = fork();
 	if (pid < 0)
@@ -46,23 +55,7 @@ int heredoc_fd(char *eof, int file_number)
 	if (pid == 0)
 	{
 		restore_signal();
-		char *input;
-		while (1)
-		{
-			input = readline("> ");
-			if (!input)
-			{
-				write_heredoc_eof_error(eof);
-				break;
-			}
-			if (ft_strcmp(input, eof) == 0)
-			{
-				free(input);
-				break;
-			}
-			write_heredoc_input(input, fd);
-			free(input);
-		}
+		heredoc_prompt_loop(eof, fd);
 		close(fd);
 		free(filename);
 		exit(0);

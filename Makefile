@@ -13,6 +13,7 @@ SRCFILES = \
 	$(EXEC_DIR)/count_cmd.c \
 	$(EXEC_DIR)/exec_cmd.c \
 	$(EXEC_DIR)/heredoc.c \
+	$(EXEC_DIR)/heredoc_utils.c \
 	$(EXEC_DIR)/multiple_cmd.c \
 	$(EXEC_DIR)/path_handler.c \
 	$(EXEC_DIR)/pipe_utils.c \

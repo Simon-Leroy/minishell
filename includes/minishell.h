@@ -124,7 +124,11 @@ char	*get_env_value(t_env *env, char *key);
 size_t	get_nbr_commands(t_cmd *cmd);
 void	exec_cmd(t_cmd *cmd, t_shell *shell);
 void check_path(char *cmd, char *path, t_shell *shell);
-int	handle_heredoc(t_token *tok, int heredoc_count, t_shell *shell);
+
+char	*generate_tmp_filename(int i);
+int		handle_heredoc(t_token *tok, int heredoc_count, t_shell *shell);
+void	write_heredoc_input(char *str, int fd);
+void	write_heredoc_eof_error(char *eof);
 
 void	single_command(t_cmd *cmd, t_shell *shell);
 void	multiple_commands(t_cmd *cmd, pid_t *pids, t_shell *shell);

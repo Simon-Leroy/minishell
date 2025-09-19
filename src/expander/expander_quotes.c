@@ -1,18 +1,23 @@
 #include "minishell.h"
 
-void	incr_and_copy(char *str, char *new_str, char delim, int *i, int *k)
+static void	handle_quotes(char *str, int *d_quote, int *s_quote, int *i)
 {
-	(*i)++;
-	while (str[*i] && str[*i] != delim)
-		new_str[(*k)++] = str[(*i)++];
-	if (str[*i] == delim)
+	if (str[*i] == '\'' && !*d_quote)
+	{
+		*s_quote = !*s_quote;
 		(*i)++;
+	}
+	else if (str[*i] == '"' && !*s_quote)
+	{
+		*d_quote = !*d_quote;
+		(*i)++;
+	}
 }
 
 size_t	len_without_quotes(char *str)
 {
 	size_t	len;
-	size_t	i;
+	int		i;
 	int		in_single;
 	int		in_double;
 
@@ -22,21 +27,13 @@ size_t	len_without_quotes(char *str)
 	in_double = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' && in_double == 0)
-		{
-			in_single = !in_single;
-			i++; // on ignore la quote
-		}
-		else if (str[i] == '"' && in_single == 0)
-		{
-			in_double = !in_double;
-			i++; // on ignore la quote
-		}
-		else
-		{
-			len++;
-			i++;
-		}
+		handle_quotes(str, &in_double, &in_single, &i);
+		if (str[i] && !((str[i] == '\'' && !in_double)
+				|| (str[i] == '"' && !in_single)))
+			{
+				len++;
+				i++;
+			}
 	}
 	return (len);
 }
@@ -58,17 +55,9 @@ char	*remove_quotes(char *str)
 	in_double = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' && !in_double)
-		{
-			in_single = !in_single;
-			i++;
-		}
-		else if (str[i] == '"' && !in_single)
-		{
-			in_double = !in_double;
-			i++;
-		}
-		else
+		handle_quotes(str, &in_double, &in_single, &i);
+		if (str[i] && !((str[i] == '\'' && !in_double)
+				|| (str[i] == '"' && !in_single)))
 			new_str[k++] = str[i++];
 	}
 	new_str[k] = '\0';

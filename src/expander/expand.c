@@ -1,16 +1,26 @@
 #include "minishell.h"
 
+char	*alloc_expanded_str(char *str, t_shell *shell)
+{
+	size_t	len;
+	char	*exp;
+
+	len = expanded_len(str, shell);
+	exp = malloc(sizeof(char) * (len + 1));
+	if (!exp)
+		return (NULL);
+	return (exp);
+}
+
 char	*expand_str(char *str, t_shell *shell)
 {
 	char	*exp;
-	size_t	len;
 	size_t	i;
 	size_t	k;
 	int		in_single;
 	int		in_double;
 
-	len = expanded_len(str, shell);
-	exp = malloc(sizeof(char) * (len + 1));
+	exp = alloc_expanded_str(str, shell);
 	if (!exp)
 		return (NULL);
 	i = 0;

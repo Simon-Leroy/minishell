@@ -100,12 +100,34 @@ int	last_command(t_cmd *cmd, int *fd, pid_t *pid_out, t_shell *shell)
 	return (0);
 }
 
+static void	wait_for_children(pid_t *pids, size_t n, t_shell *shell)
+{
+	size_t	j;
+	int		status;
+
+	j = 0;
+	while (j < n)
+	{
+		waitpid(pids[j], &status, 0);
+		if (j == n - 1)
+		{
+			if (WIFEXITED(status))
+				shell->last_exit_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+			{
+				shell->last_exit_code = 128 + WTERMSIG(status);
+				if (WTERMSIG(status) == SIGINT)
+					write(1, "\n", 1);
+			}
+		}
+		j++;
+	}
+}
+
 void	multiple_commands(t_cmd *cmd, pid_t *pids, t_shell *shell)
 {
 	size_t	i;
-	size_t	j;
 	int		fd[2];
-	int		status;
 	t_cmd	*tmp;
 
 	tmp = cmd;
@@ -122,24 +144,7 @@ void	multiple_commands(t_cmd *cmd, pid_t *pids, t_shell *shell)
 	}
 	if (tmp)
 		last_command(tmp, fd, &pids[i++], shell);
-	j = 0;
-	while (j < i)
-	{
-		waitpid(pids[j], &status, 0);
-		if (j == i - 1)
-		{
-			if (WIFEXITED(status))
-				shell->last_exit_code = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-			{
-				shell->last_exit_code = 130;
-				write(1, "\n", 1);
-			}
-			else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-				shell->last_exit_code = 131;
-		}
-		j++;
-	}
+	wait_for_children(pids, i, shell);
 	setup_signal();
 	free(pids);
 }

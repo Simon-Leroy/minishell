@@ -36,6 +36,7 @@ SRCFILES = \
 	$(LEXER_DIR)/tokenizer.c \
 	$(LEXER_DIR)/tokens_count.c \
 	$(PARSER_DIR)/cmd_block_create.c \
+	$(PARSER_DIR)/cmd_expand_quotes_utils.c \
 	$(PARSER_DIR)/cmd_expand_quotes.c \
 	$(PARSER_DIR)/cmd_list_utils.c \
 	$(PARSER_DIR)/link_cmd_redir.c \
@@ -53,6 +54,7 @@ SRCFILES = \
 	$(BUILTINS_DIR)/cd.c \
 	$(BUILTINS_DIR)/export.c \
 	$(BUILTINS_DIR)/env.c \
+	$(BUILTINS_DIR)/env_utils.c \
 	$(BUILTINS_DIR)/unset.c \
 	main.c
 

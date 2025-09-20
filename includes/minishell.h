@@ -109,6 +109,12 @@ int	validate_quote_closure(char *str, char delim, size_t *index);
 int	append_redir(t_redir **head, t_token *tok);
 int	extract_redir(t_token **tok, t_redir **redir, t_shell *shell, int *heredoc_count);
 
+void	expand_cmd_args(t_cmd *cmd, t_shell *shell);
+void	expand_redirections(t_redir *redir, t_shell *shell);
+void	remove_quotes_args(t_cmd *cmd);
+void	remove_quotes_redir(t_cmd *cmd);
+void	remove_empty_args(t_cmd *cmd);
+
 // EXPANDER PART
 
 char	*extract_var_name(char *str);
@@ -152,6 +158,9 @@ int is_parent_builtin(char *name);
 
 void	set_env(t_env **env, char *key, char *value);
 t_env	*init_env(char **envp);
+int		env_count(t_env *env);
+void	print_env(t_env *env);
+
 char	**build_envp(t_env *env);
 int	is_valid_identifier(char *str);
 

@@ -26,19 +26,6 @@ t_env *init_env(char **envp)
 	return (env);
 }
 
-int	env_count(t_env *env)
-{
-	int	count;
-
-	count = 0;
-	while (env)
-	{
-		count++;
-		env = env->next;
-	}
-	return (count);
-}
-
 char	*join_key_value(char *key, char *value)
 {
 	char	*str;
@@ -87,21 +74,6 @@ char	**build_envp(t_env *env)
 	}
 	envp[count] = NULL;
 	return (envp);
-}
-
-void	print_env(t_env *env)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		if (tmp->value)
-			printf("%s=%s\n", tmp->key, tmp->value);
-		else
-			printf("%s=\n", tmp->key);
-		tmp = tmp->next;
-	}
 }
 
 int	ft_env(t_shell *shell)

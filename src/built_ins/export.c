@@ -42,29 +42,6 @@ char	*get_export_key(char *str)
 	return (ft_substr(str, 0, len));
 }
 
-void	set_env(t_env **env, char *key, char *value)
-{
-	t_env	*tmp;
-	t_env	*new_node;
-
-	tmp = *env;
-	while (tmp)
-	{
-		if (strcmp(tmp->key, key) == 0)
-		{
-			free(tmp->value);
-			tmp->value = ft_strdup(value);
-			return ;
-		}
-		tmp = tmp->next;
-	}
-	new_node = malloc(sizeof(t_env));
-	new_node->key = ft_strdup(key);
-	new_node->value = ft_strdup(value);
-	new_node->next = *env;
-	*env = new_node;
-}
-
 void	print_export_error(char *identifier)
 {
 	write(2, "export: '", 10);

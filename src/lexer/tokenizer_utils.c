@@ -15,40 +15,6 @@ int	is_separator(char c)
 	return (0);
 }
 
-// Compte le nombre de tokens qu'il y a dans la string pour pouvoir
-// allouer en mémoire un tableau de strings
-int	tokens_count(char *s)
-{
-	size_t	i;
-	int		words;
-
-	i = 0;
-	words = 0;
-	while (s[i])
-	{
-		if (s[i] == '\'' || s[i] == '"')
-		{
-			validate_quote_closure(s, s[i], &i);
-			if (check_char(s[i + 1]))
-				words++;
-		}
-		else if (is_separator(s[i]))
-		{
-			if ((s[i] == '>' || s[i] == '<') && s[i + 1] && s[i] == s[i + 1])
-			{
-				i++;
-				words++;
-			}
-			else
-				words++;
-		}
-		else if (!check_char(s[i]) && (check_char(s[i + 1]) || is_separator(s[i + 1])))
-			words++;
-		i++;
-	}
-	return (words);
-}
-
 // Incrémente i et len jusqu'à ce que le délimiteur soit atteint
 void	increment_len(char *str, size_t *i, size_t *len, char delim)
 {
@@ -96,14 +62,6 @@ size_t	ft_token_len(char *s)
 	}
 	return (len);
 }
-
-/* int main(int argc, char **argv)
-{
-	if (argc != 2)
-		return (1);
-	printf("Longueur token : %li\n", ft_token_len(argv[1]));
-	return (0);
-} */
 
 // Copie un token
 char	*token_copy(char *s)

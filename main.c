@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+volatile sig_atomic_t	g_signal;
+
 void	free_mem(t_cmd *cmd, t_token *tokens, char *input)
 {
 	ft_free_tokens(tokens);
@@ -7,13 +9,41 @@ void	free_mem(t_cmd *cmd, t_token *tokens, char *input)
 	free(input);
 }
 
-volatile sig_atomic_t	g_signal;
+static char *read_input(t_shell *shell)
+{
+	char *input;
+
+	input = readline("minishell> ");
+	if (!input)
+	{
+		write(1, "exit\n", 5);
+		return (NULL);
+	}
+	if (g_signal == SIGINT)
+	{
+		shell->last_exit_code = 130;
+		g_signal = 0;
+	}
+	if (*input)
+		add_history(input);
+	return (input);
+}
+
+static void process_input(char *input, t_shell *shell)
+{
+	t_token *tokens;
+	t_cmd   *cmd;
+
+	tokens = list_tokens(input, shell);
+	cmd = link_cmd_redir(tokens, shell);
+	if (cmd)
+		run_commands(cmd, shell);
+	free_mem(cmd, tokens, input);
+}
 
 int main(int argc, char **argv, char **envp)
 {
 	t_shell shell;
-	t_token *tokens;
-	t_cmd	*cmd;
 	char	*input;
 
 	(void)argc;
@@ -23,24 +53,10 @@ int main(int argc, char **argv, char **envp)
 	setup_signal();
 	while (1)
 	{
-		input = readline("minishell> ");
+		input = read_input(&shell);
 		if (!input)
-		{
-			write(1, "exit\n", 5);
 			break ;
-		}
-		if (g_signal == SIGINT)
-		{
-			shell.last_exit_code = 130;
-			g_signal = 0;
-		}
-		if (*input)
-			add_history(input);
-		tokens = list_tokens(input, &shell);
-		cmd = link_cmd_redir(tokens, &shell);
-		if (cmd)
-			run_commands(cmd, &shell);
-		free_mem(cmd, tokens, input);
+		process_input(input, &shell);
 	}
 	rl_clear_history();
 	ft_free_env(shell.env);

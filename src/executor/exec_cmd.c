@@ -1,5 +1,17 @@
 #include "minishell.h"
 
+static void	handle_fail(t_shell *shell, char *path, char *error,
+						int exit_code, char **envp)
+{
+	perror(error);
+	shell->last_exit_code = exit_code;
+	if (path)
+		free(path);
+	if (envp)
+		ft_free_tab(envp);
+	exit(exit_code);
+}
+
 void	exec_cmd(t_cmd *cmd, t_shell *shell)
 {
 	char	*path;
@@ -21,18 +33,8 @@ void	exec_cmd(t_cmd *cmd, t_shell *shell)
 	check_path(cmd->commands[0], path, shell);
 	envp = build_envp(shell->env);
 	if (!envp)
-	{
-		perror("env build failed");
-		shell->last_exit_code = 1;
-		free(path);
-		exit(shell->last_exit_code);
-	}
+		handle_fail(shell, path, "minishell: env build failed", 1, NULL);
 	if (execve(path, cmd->commands, envp) == -1)
-	{
-		perror("execve failed");
-		free(path);
-		shell->last_exit_code = 126;
-		exit(shell->last_exit_code);
-	}
+		handle_fail(shell, path, "minishell", 126, envp);
 	free(path);
 }

@@ -89,7 +89,7 @@ t_token	*list_tokens(char *str, t_shell *shell);
 int	append_token(t_token **list, char *value, t_token_type type);
 t_token_type get_t_type(char *str);
 char	*token_copy(char *s);
-
+int	is_separator(char c);
 int	tokens_count(char *s);
 size_t	ft_token_len(char *str);
 int	check_char(char c);
@@ -136,6 +136,11 @@ char	*get_path(t_cmd *cmd, t_env *env);
 
 void	check_close(int fd);
 void	close_pipe(int *fd);
+
+int	first_command(t_cmd *cmd, pid_t *pid_out, t_shell *shell);
+int	middle_pipes(t_cmd *cmd, int *fd, pid_t *pid_out, t_shell *shell);
+int	last_command(t_cmd *cmd, int *fd, pid_t *pid_out, t_shell *shell);
+
 
 int	apply_redirections(t_redir *redir, t_shell *shell);
 void	run_commands(t_cmd *cmd, t_shell *shell);

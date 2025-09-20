@@ -32,9 +32,12 @@ void	process_env_var_copy(char *str, size_t *i, char *exp, size_t *k, t_shell *s
 	else if (classify_dollar(str[*i + 1]) == EXIT_STATUS)
 	{
 		var_value = ft_itoa(shell->last_exit_code);
+		if (!var_value)
+			return ;
 		j = 0;
 		while (var_value[j])
 			exp[(*k)++] = var_value[j++];
+		free(var_value);
 		(*i) += 2;
 	}
 	else if (classify_dollar(str[*i + 1]) == LITERAL)

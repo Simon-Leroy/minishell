@@ -16,6 +16,7 @@ SRCFILES = \
 	$(EXEC_DIR)/heredoc_utils.c \
 	$(EXEC_DIR)/multiple_cmd.c \
 	$(EXEC_DIR)/path_handler.c \
+	$(EXEC_DIR)/pipe_exec.c \
 	$(EXEC_DIR)/pipe_utils.c \
 	$(EXEC_DIR)/redirections.c \
 	$(EXEC_DIR)/run_commands.c \
@@ -33,6 +34,7 @@ SRCFILES = \
 	$(LEXER_DIR)/token_types.c \
 	$(LEXER_DIR)/tokenizer_utils.c \
 	$(LEXER_DIR)/tokenizer.c \
+	$(LEXER_DIR)/tokens_count.c \
 	$(PARSER_DIR)/cmd_block_create.c \
 	$(PARSER_DIR)/cmd_expand_quotes.c \
 	$(PARSER_DIR)/cmd_list_utils.c \

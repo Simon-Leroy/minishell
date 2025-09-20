@@ -64,6 +64,7 @@ int heredoc_fd(char *eof, int file_number)
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 		return (unlink(filename), free(filename), write(1, "\n", 1), -1);
+	free(filename);
 	return (fd);
 }
 

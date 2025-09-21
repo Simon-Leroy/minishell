@@ -13,9 +13,9 @@ void	handle_env_var(char *str, size_t *i, size_t *len, t_env *env)
 			*len += ft_strlen(var_value);
 		free(var_name);
 	}
-	(*i)++; // on passe au caractère juste après le dollar
+	(*i)++;
 	while (str[*i] && (isalnum(str[*i]) || str[*i] == '_'))
-		(*i)++; // on sort du nom de la variable
+		(*i)++;
 }
 
 void	process_var_len(char *str, size_t *i, size_t *len, t_shell *shell)
@@ -29,11 +29,11 @@ void	process_var_len(char *str, size_t *i, size_t *len, t_shell *shell)
 	}
 	else if (classify_dollar(str[*i + 1]) == LITERAL)
 	{
-		(*len)++; //on compte le caractère dollar
-		(*i)++; // on passe au caractère juste après le dollar
+		(*len)++;
+		(*i)++;
 	}
 	else if (classify_dollar(str[*i + 1]) == INVALID)
-		*i += 2; // on skip le dollar le caractère invalide
+		*i += 2;
 }
 
 size_t	expanded_len(char *str, t_shell *shell)

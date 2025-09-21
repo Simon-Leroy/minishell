@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_env_var_type classify_dollar(char c)
+t_env_var_type	classify_dollar(char c)
 {
 	if (c == '?')
 		return (EXIT_STATUS);
@@ -19,7 +19,7 @@ char	*extract_var_name(char *str)
 	size_t			i;
 
 	s = ft_strchr(str, '$');
-	if (!s )
+	if (!s)
 		return (NULL);
 	s++;
 	type = classify_dollar(s[0]);
@@ -32,7 +32,5 @@ char	*extract_var_name(char *str)
 	}
 	if (type == LITERAL)
 		return (ft_strdup("$"));
-/* 	if (type == EXIT_STATUS)
-		return (ft_strdup("?")); */
 	return (ft_strdup(""));
 }

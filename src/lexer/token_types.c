@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 // Assigne un type en fonction des caractères spéciaux rencontrés
-t_token_type get_t_type(char *str)
+t_token_type	get_t_type(char *str)
 {
 	t_token_type	type;
 

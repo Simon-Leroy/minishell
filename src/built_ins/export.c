@@ -6,12 +6,12 @@ int	is_valid_identifier(char *str)
 
 	if (!str || !str[0])
 		return (0);
-	if (!(isalpha(str[0]) || str[0] == '_'))
+	if (!(ft_isalpha(str[0]) || str[0] == '_'))
 		return (0);
 	i = 1;
 	while (str[i] && str[i] != '=')
 	{
-		if (!(isalnum(str[i]) || str[i] == '_'))
+		if (!(ft_isalnum(str[i]) || str[i] == '_'))
 			return (0);
 		i++;
 	}
@@ -48,6 +48,7 @@ void	print_export_error(char *identifier)
 	write(2, identifier, ft_strlen(identifier));
 	write(2, "': not a valid identifier\n", 26);
 }
+
 int	ft_export(char **args, t_env **env)
 {
 	int		i;

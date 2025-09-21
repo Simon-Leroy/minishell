@@ -16,7 +16,7 @@ static char	*init_heredoc_fd(int file_number, int *fd)
 	return (filename);
 }
 
-static void		heredoc_prompt_loop(char *eof, int fd)
+static void	heredoc_prompt_loop(char *eof, int fd)
 {
 	char	*input;
 
@@ -26,24 +26,24 @@ static void		heredoc_prompt_loop(char *eof, int fd)
 		if (!input)
 		{
 			write_heredoc_eof_error(eof);
-			break;
+			break ;
 		}
 		if (ft_strcmp(input, eof) == 0)
 		{
 			free(input);
-			break;
+			break ;
 		}
 		write_heredoc_input(input, fd);
 		free(input);
 	}
 }
 
-int heredoc_fd(char *eof, int file_number)
+int	heredoc_fd(char *eof, int file_number)
 {
-	char *filename;
-	int fd;
-	pid_t pid;
-	int status;
+	char	*filename;
+	int		fd;
+	pid_t	pid;
+	int		status;
 
 	filename = init_heredoc_fd(file_number, &fd);
 	if (!filename)

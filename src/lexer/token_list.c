@@ -23,7 +23,7 @@ int	append_token(t_token **list, char *value, t_token_type type)
 	new_node = malloc(sizeof(t_token));
 	if (!new_node)
 		return (0);
-	new_node->value = strdup(value);
+	new_node->value = ft_strdup(value);
 	new_node->type = type;
 	new_node->is_redir = 0;
 	new_node->next = NULL;
@@ -36,4 +36,3 @@ int	append_token(t_token **list, char *value, t_token_type type)
 	}
 	return (1);
 }
-

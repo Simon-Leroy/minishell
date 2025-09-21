@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*generate_tmp_filename(int	i)
+char	*generate_tmp_filename(int i)
 {
 	char	*prefix;
 	char	*nbr;
@@ -27,5 +27,5 @@ void	write_heredoc_eof_error(char *eof)
 	write(2, "warning: here-document delimited by end-of-file ", 48);
 	write(2, "(wanted '", 9);
 	write(2, eof, ft_strlen(eof));
-	write(2,"')\n", 3);
+	write(2, "')\n", 3);
 }

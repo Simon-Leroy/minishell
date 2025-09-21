@@ -16,10 +16,10 @@ t_redir	*find_last_redir(t_redir *redir, t_token_type type)
 	return (last_redir);
 }
 
-int apply_redirections(t_redir *redir, t_shell *shell)
+int	apply_redirections(t_redir *redir, t_shell *shell)
 {
-	t_redir *r;
-	int fd;
+	t_redir	*r;
+	int		fd;
 
 	r = redir;
 	while (r)

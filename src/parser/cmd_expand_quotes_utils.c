@@ -38,10 +38,10 @@ void	expand_redirections(t_redir *redir, t_shell *shell)
 	}
 }
 
-void remove_quotes_args(t_cmd *cmd)
+void	remove_quotes_args(t_cmd *cmd)
 {
-	int i;
-	char *no_quotes;
+	int		i;
+	char	*no_quotes;
 
 	if (!cmd || !cmd->commands)
 		return ;
@@ -55,10 +55,10 @@ void remove_quotes_args(t_cmd *cmd)
 	}
 }
 
-void remove_quotes_redir(t_cmd *cmd)
+void	remove_quotes_redir(t_cmd *cmd)
 {
-	t_redir *tmp_redir;
-	char *no_quotes;
+	t_redir	*tmp_redir;
+	char	*no_quotes;
 
 	if (!cmd || !cmd->redir)
 		return ;

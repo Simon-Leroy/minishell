@@ -1,6 +1,7 @@
 #include "minishell.h"
 
-void	copy_env_var_type(char *str, size_t *i, char *exp, size_t *k, t_env *env)
+void	copy_env_var_type(char *str, size_t *i, char *exp,
+			size_t *k, t_env *env)
 {
 	char	*var_name;
 	char	*var_value;
@@ -18,11 +19,13 @@ void	copy_env_var_type(char *str, size_t *i, char *exp, size_t *k, t_env *env)
 		}
 		free(var_name);
 	}
-	(*i)++; // on passe au caractère juste après le dollar
+	(*i)++;
 	while (str[*i] && (isalnum(str[*i]) || str[*i] == '_'))
-		(*i)++; // on sort du nom de la variable
+		(*i)++;
 }
-void	process_env_var_copy(char *str, size_t *i, char *exp, size_t *k, t_shell *shell)
+
+void	process_env_var_copy(char *str, size_t *i, char *exp,
+			size_t *k, t_shell *shell)
 {
 	char	*var_value;
 	size_t	j;
@@ -41,7 +44,7 @@ void	process_env_var_copy(char *str, size_t *i, char *exp, size_t *k, t_shell *s
 		(*i) += 2;
 	}
 	else if (classify_dollar(str[*i + 1]) == LITERAL)
-		exp[(*k)++] = str[(*i)++]; // copie le dollar
+		exp[(*k)++] = str[(*i)++];
 	else if (classify_dollar(str[*i + 1]) == INVALID)
-		*i += 2; // on skip le dollar le caractère invalide
+		*i += 2;
 }

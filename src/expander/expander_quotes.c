@@ -30,10 +30,10 @@ size_t	len_without_quotes(char *str)
 		handle_quotes(str, &in_double, &in_single, &i);
 		if (str[i] && !((str[i] == '\'' && !in_double)
 				|| (str[i] == '"' && !in_single)))
-			{
-				len++;
-				i++;
-			}
+		{
+			len++;
+			i++;
+		}
 	}
 	return (len);
 }

@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-int is_parent_builtin(char *name)
+int	is_parent_builtin(char *name)
 {
 	return (!ft_strcmp(name, "exit") || !ft_strcmp(name, "export")
-			|| !ft_strcmp(name, "env") || !ft_strcmp(name, "cd")
-			|| !ft_strcmp(name, "unset"));
+		|| !ft_strcmp(name, "env") || !ft_strcmp(name, "cd")
+		|| !ft_strcmp(name, "unset"));
 }
 
 int	exec_builtin(t_cmd *cmd, t_shell *shell)

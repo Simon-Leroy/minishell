@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void check_command_not_found(char *cmd, char *path, t_shell *shell)
+void	check_command_not_found(char *cmd, char *path, t_shell *shell)
 {
 	if (!path && !ft_strchr(cmd, '/'))
 	{
@@ -10,9 +10,9 @@ void check_command_not_found(char *cmd, char *path, t_shell *shell)
 	}
 }
 
-void check_no_such_file(char *cmd, char *path, t_shell *shell)
+void	check_no_such_file(char *cmd, char *path, t_shell *shell)
 {
-	struct stat s;
+	struct stat	s;
 
 	if (ft_strchr(cmd, '/') && stat(path, &s) == -1)
 	{
@@ -22,9 +22,9 @@ void check_no_such_file(char *cmd, char *path, t_shell *shell)
 	}
 }
 
-void check_is_directory(char *cmd, char *path, t_shell *shell)
+void	check_is_directory(char *cmd, char *path, t_shell *shell)
 {
-	struct stat s;
+	struct stat	s;
 
 	if (stat(path, &s) == 0 && S_ISDIR(s.st_mode))
 	{
@@ -34,7 +34,7 @@ void check_is_directory(char *cmd, char *path, t_shell *shell)
 	}
 }
 
-void check_permission_denied(char *cmd, char *path, t_shell *shell)
+void	check_permission_denied(char *cmd, char *path, t_shell *shell)
 {
 	if (access(path, X_OK) != 0)
 	{
@@ -44,7 +44,7 @@ void check_permission_denied(char *cmd, char *path, t_shell *shell)
 	}
 }
 
-void check_path(char *cmd, char *path, t_shell *shell)
+void	check_path(char *cmd, char *path, t_shell *shell)
 {
 	if (ft_strchr(cmd, '/'))
 	{
@@ -60,5 +60,3 @@ void check_path(char *cmd, char *path, t_shell *shell)
 	else
 		check_command_not_found(cmd, path, shell);
 }
-
-

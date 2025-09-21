@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-int validate_redirections(t_redir *redir, t_shell *shell)
+int	validate_redirections(t_redir *redir, t_shell *shell)
 {
-	int fd;
+	int	fd;
 
 	while (redir)
 	{
@@ -13,7 +13,7 @@ int validate_redirections(t_redir *redir, t_shell *shell)
 		else if (redir->type == APPEND)
 			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd < 0)
-		return (set_exit_code_errno(shell), perror(redir->filename), -1);
+			return (set_exit_code_errno(shell), perror(redir->filename), -1);
 		close(fd);
 		redir = redir->next;
 	}
@@ -22,7 +22,7 @@ int validate_redirections(t_redir *redir, t_shell *shell)
 
 static void	run_multiple_or_single(t_cmd *cmd, t_shell *shell, size_t nbr)
 {
-	pid_t *pids;
+	pid_t	*pids;
 
 	if (nbr == 1)
 	{

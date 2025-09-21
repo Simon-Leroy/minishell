@@ -30,7 +30,8 @@ int	tokens_count(char *s)
 		}
 		else if (is_separator(s[i]))
 			handle_separator(s, &i, &words);
-		else if (!check_char(s[i]) && (check_char(s[i + 1]) || is_separator(s[i + 1])))
+		else if (!check_char(s[i]) && (check_char(s[i + 1])
+				|| is_separator(s[i + 1])))
 			words++;
 		i++;
 	}

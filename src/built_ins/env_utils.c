@@ -21,7 +21,7 @@ void	set_env(t_env **env, char *key, char *value)
 	tmp = *env;
 	while (tmp)
 	{
-		if (strcmp(tmp->key, key) == 0)
+		if (ft_strcmp(tmp->key, key) == 0)
 		{
 			free(tmp->value);
 			tmp->value = ft_strdup(value);

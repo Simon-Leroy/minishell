@@ -3,7 +3,8 @@
 // Traite un token de redirection simple (INPUT, OUTPUT, APPEND, HEREDOC)
 // Appelle handle_heredoc si c'est un heredoc
 
-int	process_redir_token(t_token *tok, t_redir **redir, int *heredoc_count, t_shell *shell)
+int	process_redir_token(t_token *tok, t_redir **redir,
+	int *heredoc_count, t_shell *shell)
 {
 	if (!tok->next || tok->next->type != WORD)
 	{
@@ -22,7 +23,8 @@ int	process_redir_token(t_token *tok, t_redir **redir, int *heredoc_count, t_she
 }
 
 // Parcourt les tokens avant un pipe et extrait les redirections
-int	extract_redir(t_token **tok, t_redir **redir, t_shell *shell, int *heredoc_count)
+int	extract_redir(t_token **tok, t_redir **redir,
+	t_shell *shell, int *heredoc_count)
 {
 	while (*tok && (*tok)->type != PIPE)
 	{

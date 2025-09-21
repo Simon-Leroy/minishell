@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_env *init_env(char **envp)
+t_env	*init_env(char **envp)
 {
 	t_env	*env;
 	char	*key;

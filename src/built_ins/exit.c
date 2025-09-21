@@ -28,8 +28,8 @@ int	is_numeric(char *str)
 
 int	ft_exit(char **args, int last_status)
 {
-	int	args_nbr;
-	int	code;
+	int		args_nbr;
+	int		code;
 	char	*first_arg;
 
 	args_nbr = args_count(args);

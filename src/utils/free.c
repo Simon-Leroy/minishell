@@ -17,7 +17,7 @@ void	ft_free_tab(char **tab)
 
 void	ft_free_tokens(t_token *list)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	while (list)
 	{
@@ -68,7 +68,7 @@ void	ft_free_full_cmd(t_cmd *cmd)
 
 void	ft_free_env(t_env *env)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	while (env)
 	{

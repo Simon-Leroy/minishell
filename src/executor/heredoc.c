@@ -16,10 +16,11 @@ static char	*init_heredoc_fd(int file_number, int *fd)
 	return (filename);
 }
 
-static void	heredoc_prompt_loop(char *eof, int fd)
+static void	heredoc_child_process(char *eof, int fd, char *filename)
 {
 	char	*input;
 
+	restore_signal();
 	while (1)
 	{
 		input = readline("> ");
@@ -36,6 +37,9 @@ static void	heredoc_prompt_loop(char *eof, int fd)
 		write_heredoc_input(input, fd);
 		free(input);
 	}
+	close(fd);
+	free(filename);
+	exit(0);
 }
 
 int	heredoc_fd(char *eof, int file_number)
@@ -53,13 +57,7 @@ int	heredoc_fd(char *eof, int file_number)
 	if (pid < 0)
 		return (free(filename), close(fd), -1);
 	if (pid == 0)
-	{
-		restore_signal();
-		heredoc_prompt_loop(eof, fd);
-		close(fd);
-		free(filename);
-		exit(0);
-	}
+		heredoc_child_process(eof, fd, filename);
 	close(fd);
 	waitpid(pid, &status, 0);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)

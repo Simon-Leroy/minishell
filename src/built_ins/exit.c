@@ -38,12 +38,12 @@ int	ft_exit(char **args, int last_status)
 	first_arg = remove_quotes(args[1]);
 	if (args_nbr >= 3)
 	{
-		write(2, " too many arguments\n", 20);
-		exit(1);
+		write_error("exit", "too many arguments");
+		return (1);
 	}
 	if (first_arg && !is_numeric(first_arg))
 	{
-		write(2, " numeric argument required\n", 27);
+		write_error("exit", "numeric argument required");
 		exit(2);
 	}
 	code = ft_atoi(first_arg);

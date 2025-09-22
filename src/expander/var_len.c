@@ -14,7 +14,7 @@ void	handle_env_var(char *str, size_t *i, size_t *len, t_env *env)
 		free(var_name);
 	}
 	(*i)++;
-	while (str[*i] && (isalnum(str[*i]) || str[*i] == '_'))
+	while (str[*i] && (ft_isalnum(str[*i]) || str[*i] == '_'))
 		(*i)++;
 }
 

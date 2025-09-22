@@ -9,7 +9,7 @@ void	write_error(char *cmd, char *msg)
 	ft_putstr_fd("\n", 2);
 }
 
-void	set_exit_code_errno(t_shell *shell)
+void	exit_errno(t_shell *shell)
 {
 	if (errno == ENOENT)
 		shell->last_exit_code = 127;

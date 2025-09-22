@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*alloc_expanded_str(char *str, t_shell *shell)
+static char	*alloc_expanded_str(char *str, t_shell *shell)
 {
 	size_t	len;
 	char	*exp;
@@ -12,39 +12,46 @@ char	*alloc_expanded_str(char *str, t_shell *shell)
 	return (exp);
 }
 
+/* Pour réduire le nombre de paramètres dans la fonction :
+	quotes[0] --> quand on est dans une single quote
+	quotes[1] --> quand on est dans une double quote */
+
+static void	handle_expansion_char(char **src, char **cursor,
+		int quotes[2], t_shell *shell)
+{
+	if (**src == '\'' && quotes[1] == 0)
+	{
+		quotes[0] = !quotes[0];
+		*(*cursor)++ = *(*src)++;
+	}
+	else if (**src == '"' && quotes[0] == 0)
+	{
+		quotes[1] = !quotes[1];
+		*(*cursor)++ = *(*src)++;
+	}
+	else if (quotes[0] == 0 && **src == '$')
+		process_env_var_copy(src, cursor, shell);
+	else
+		*(*cursor)++ = *(*src)++;
+}
+
 char	*expand_str(char *str, t_shell *shell)
 {
 	char	*exp;
-	size_t	i;
-	size_t	k;
-	int		in_single;
-	int		in_double;
+	char	*cursor;
+	char	*src;
+	int		quotes[2];
 
 	exp = alloc_expanded_str(str, shell);
 	if (!exp)
 		return (NULL);
-	i = 0;
-	k = 0;
-	in_single = 0;
-	in_double = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'' && in_double == 0)
-		{
-			in_single = !in_single;
-			exp[k++] = str[i++];
-		}
-		else if (str[i] == '"' && in_single == 0)
-		{
-			in_double = !in_double;
-			exp[k++] = str[i++];
-		}
-		else if (in_single == 0 && str[i] == '$')
-			process_env_var_copy(str, &i, exp, &k, shell);
-		else
-			exp[k++] = str[i++];
-	}
-	exp[k] = '\0';
+	cursor = exp;
+	src = str;
+	quotes[0] = 0;
+	quotes[1] = 0;
+	while (*src)
+		handle_expansion_char(&src, &cursor, quotes, shell);
+	*cursor = '\0';
 	return (exp);
 }
 

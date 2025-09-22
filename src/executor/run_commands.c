@@ -13,7 +13,7 @@ int	validate_redirections(t_redir *redir, t_shell *shell)
 		else if (redir->type == APPEND)
 			fd = open(redir->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd < 0)
-			return (set_exit_code_errno(shell), perror(redir->filename), -1);
+			return (exit_errno(shell), perror(redir->filename), -1);
 		close(fd);
 		redir = redir->next;
 	}

@@ -39,7 +39,7 @@ typedef enum e_env_var_type
 
 // Liste chaînée avec :
 // -valeur : string qui peut être une commande un < un >> etc
-// -is_redir : booléen 1 si le token est une redirection 
+// -is_redir : booléen 1 si le token est une redirection
 // (filename ou symbole) 0 sinon
 // -type : basé sur le enum juste au dessus
 // -next : pointeur vers le token suivant dans la liste
@@ -62,7 +62,7 @@ typedef struct s_redir
 
 // structure de commande pour la partie d'exécution du minishell
 // -**commands : tableau de commandes à passer en argument de execve
-// -redir : pointeur vers la liste chaînée des redirections 
+// -redir : pointeur vers la liste chaînée des redirections
 // à gérer avant de faire le execve
 typedef struct s_cmd
 {
@@ -123,8 +123,7 @@ char			*extract_var_name(char *str);
 char			*expand_str(char *str, t_shell *shell);
 char			*remove_quotes(char *str);
 t_env_var_type	classify_dollar(char c);
-void			process_env_var_copy(char *str, size_t *i,
-					char *exp, size_t *k, t_shell *shell);
+void			process_env_var_copy(char **str, char **exp, t_shell *shell);
 size_t			expanded_len(char *str, t_shell *shell);
 char			*get_env_value(t_env *env, char *key);
 
@@ -178,7 +177,7 @@ int				ft_unset(char **args, t_env **env);
 
 // UTILS
 
-void			set_exit_code_errno(t_shell *shell);
+void			exit_errno(t_shell *shell);
 void			print_error(char *command, int exit_code);
 void			write_error(char *cmd, char *msg);
 

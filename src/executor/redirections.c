@@ -31,11 +31,11 @@ int	apply_redirections(t_redir *redir, t_shell *shell)
 		else if (r->type == APPEND)
 			fd = open(r->filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd < 0)
-			return (set_exit_code_errno(shell), perror(r->filename), -1);
-		if ((r->type == INPUT || r->type == HEREDOC) && dup2(fd, STDIN_FILENO) < 0)
-			return (set_exit_code_errno(shell), perror(r->filename), close(fd), -1);
-		if ((r->type == OUTPUT || r->type == APPEND) && dup2(fd, STDOUT_FILENO) < 0)
-			return (set_exit_code_errno(shell), perror(r->filename), close(fd), -1);
+			return (exit_errno(shell), perror(r->filename), -1);
+		if ((r->type == INPUT || r->type == HEREDOC) && dup2(fd, 0) < 0)
+			return (exit_errno(shell), perror(r->filename), close(fd), -1);
+		if ((r->type == OUTPUT || r->type == APPEND) && dup2(fd, 1) < 0)
+			return (exit_errno(shell), perror(r->filename), close(fd), -1);
 		close(fd);
 		if (r->type == HEREDOC)
 			unlink(r->filename);

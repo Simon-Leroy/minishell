@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redir_process.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/23 01:51:49 by roguille          #+#    #+#             */
+/*   Updated: 2025/09/23 01:51:50 by roguille         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Traite un token de redirection simple (INPUT, OUTPUT, APPEND, HEREDOC)

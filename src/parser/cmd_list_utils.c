@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_list_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/23 01:51:43 by roguille          #+#    #+#             */
+/*   Updated: 2025/09/23 01:51:44 by roguille         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Renvoie un pointeur vers le dernier noeud de la liste chaînée de commandes

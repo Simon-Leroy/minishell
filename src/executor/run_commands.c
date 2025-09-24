@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_commands.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:15 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:16 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/24 17:00:22 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	validate_redirections(t_redir *redir, t_shell *shell)
 {
 	int	fd;
 
+	fd = -1;
 	while (redir)
 	{
 		if (redir->type == INPUT || redir->type == HEREDOC)

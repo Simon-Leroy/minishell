@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 14:21:36 by sleroy            #+#    #+#             */
-/*   Updated: 2024/11/26 11:05:15 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/24 17:05:29 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 
 	src_len = ft_strlen(src);
 	dst_len = ft_strlen(dst);
-	res = 0;
 	if (size <= dst_len)
 		res = size + src_len;
 	else

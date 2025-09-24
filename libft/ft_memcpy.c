@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 13:53:33 by sleroy            #+#    #+#             */
-/*   Updated: 2024/11/26 11:07:15 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/24 17:06:52 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*ft_memcpy(void *dest, const void *src, size_t size)
 	size_t	i;
 
 	i = 0;
-	if (!dest && !src)
+	if (size > 0 && (!dest || !src))
 		return (NULL);
 	while (i < size)
 	{

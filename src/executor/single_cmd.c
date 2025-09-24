@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   single_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:16 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:17 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:33:04 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,6 @@ void	single_command(t_cmd *cmd, t_shell *shell)
 	pid_t	pid;
 	int		status;
 
-	if (is_parent_builtin(cmd->commands[0]))
-	{
-		exec_builtin(cmd, shell);
-		return ;
-	}
 	ignore_signal();
 	pid = fork();
 	if (pid == 0)

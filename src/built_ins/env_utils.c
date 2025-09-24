@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:50:51 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/24 15:28:27 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/24 16:32:31 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,11 @@ static int	update_env_value(t_env *env, char *key, char *value)
 
 int	set_env(t_env **env, char *key, char *value)
 {
-	t_env	*tmp;
 	t_env	*new_node;
 	int		status;
 
 	if (!key || !value)
 		return (0);
-	tmp = *env;
 	status = update_env_value(*env, key, value);
 	if (status >= 0)
 		return (status);

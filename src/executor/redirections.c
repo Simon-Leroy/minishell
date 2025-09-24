@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:14 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:15 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/24 17:01:33 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	apply_redirections(t_redir *redir, t_shell *shell)
 	int		fd;
 
 	r = redir;
+	fd = -1;
 	while (r)
 	{
 		if (r->type == INPUT || r->type == HEREDOC)

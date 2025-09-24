@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:38 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/24 12:31:36 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/24 16:58:50 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_cmd	*allocate_cmd_block(t_token *tok)
 		free(cmd_block);
 		return (NULL);
 	}
+	i = 0;
 	while (i <= count_cmd)
 		cmd_block->commands[i++] = NULL;
 	cmd_block->redir = NULL;

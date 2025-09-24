@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:50:55 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:50:57 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/23 22:36:17 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ int	ft_exit(char **args, int last_status)
 	args_nbr = args_count(args);
 	if (!args[1])
 		exit(last_status);
-	first_arg = remove_quotes(args[1]);
 	if (args_nbr >= 3)
 	{
 		write_error("exit", "too many arguments");
 		return (1);
 	}
+	first_arg = remove_quotes(args[1]);
 	if (first_arg && !is_numeric(first_arg))
 	{
 		write_error("exit", "numeric argument required");

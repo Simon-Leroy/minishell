@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:52:31 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:52:33 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/24 10:41:43 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,3 +74,4 @@ int	main(int argc, char **argv, char **envp)
 	ft_free_env(shell.env);
 	return (0);
 }
+

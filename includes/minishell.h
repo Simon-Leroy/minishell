@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:52:40 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:52:41 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/24 09:57:20 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ void			run_commands(t_cmd *cmd, t_shell *shell);
 int				exec_builtin(t_cmd *cmd, t_shell *shell);
 int				is_parent_builtin(char *name);
 
-void			set_env(t_env **env, char *key, char *value);
+int				set_env(t_env **env, char *key, char *value);
 t_env			*init_env(char **envp);
 int				env_count(t_env *env);
 void			print_env(t_env *env);

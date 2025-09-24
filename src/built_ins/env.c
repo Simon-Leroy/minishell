@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:50:49 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:50:51 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/24 11:21:31 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ t_env	*init_env(char **envp)
 		{
 			key = ft_substr(envp[i], 0, equal - envp[i]);
 			value = ft_strdup(equal + 1);
-			set_env(&env, key, value);
+			if (!set_env(&env, key, value))
+				return (free(key), free(value), ft_free_env(env), NULL);
 			free(key);
 			free(value);
 		}

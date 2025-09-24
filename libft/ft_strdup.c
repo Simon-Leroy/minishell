@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 16:48:24 by sleroy            #+#    #+#             */
-/*   Updated: 2024/11/21 14:17:04 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/24 11:37:26 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strdup(const char *src)
 	size_t	len;
 	size_t	i;
 
+	if (!src)
+		return (NULL);
 	len = ft_strlen(src);
 	dup = malloc(sizeof(char) * (len + 1));
 	if (dup == NULL)

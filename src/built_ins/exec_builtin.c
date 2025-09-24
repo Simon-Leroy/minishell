@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:50:54 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:50:55 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:09:01 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	exec_builtin(t_cmd *cmd, t_shell *shell)
 {
 	char	*name;
 
+	if (!cmd || !cmd->commands || !cmd->commands[0])
+		return (-1);
 	name = cmd->commands[0];
 	if (ft_strcmp(name, "exit") == 0)
 		return (ft_exit(cmd->commands, shell->last_exit_code));

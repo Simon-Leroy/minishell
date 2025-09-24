@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:32 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:34 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:18:48 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int	append_token(t_token **list, char *value, t_token_type type)
 	if (!new_node)
 		return (0);
 	new_node->value = ft_strdup(value);
+	if (!new_node->value)
+		return (free(new_node), 0);
 	new_node->type = type;
 	new_node->is_redir = 0;
 	new_node->next = NULL;

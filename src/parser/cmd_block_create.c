@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_block_create.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:38 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:39 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/24 12:31:36 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ t_cmd	*allocate_cmd_block(t_token *tok)
 {
 	t_cmd	*cmd_block;
 	size_t	count_cmd;
+	size_t	i;
 
 	cmd_block = malloc(sizeof(t_cmd));
 	if (!cmd_block)
@@ -28,6 +29,10 @@ t_cmd	*allocate_cmd_block(t_token *tok)
 		free(cmd_block);
 		return (NULL);
 	}
+	while (i <= count_cmd)
+		cmd_block->commands[i++] = NULL;
+	cmd_block->redir = NULL;
+	cmd_block->next = NULL;
 	return (cmd_block);
 }
 
@@ -47,8 +52,12 @@ int	populate_cmd_block(t_cmd *cmd_block, t_token *tok, t_redir *redir)
 			if (!cmd_block->commands[i])
 			{
 				while (--i >= 0)
+				{
 					free(cmd_block->commands[i]);
+					cmd_block->commands[i] = NULL;
+				}
 				free(cmd_block->commands);
+				cmd_block->commands = NULL;
 				return (0);
 			}
 			i++;
@@ -70,9 +79,9 @@ int	append_cmd(t_cmd **head, t_token *tok, t_redir *redir)
 	new_cmd = allocate_cmd_block(tok);
 	if (!new_cmd)
 		return (0);
-	if (!populate_cmd_block(new_cmd, tok, redir))
+	if (!populate_cmd_block(new_cmd, tok, redir) || !new_cmd->commands[0])
 	{
-		free(new_cmd);
+		ft_free_full_cmd(new_cmd);
 		return (0);
 	}
 	if (!*head)

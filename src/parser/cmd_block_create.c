@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:38 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/24 16:58:50 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/25 00:07:21 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	append_cmd(t_cmd **head, t_token *tok, t_redir *redir)
 	new_cmd = allocate_cmd_block(tok);
 	if (!new_cmd)
 		return (0);
-	if (!populate_cmd_block(new_cmd, tok, redir) || !new_cmd->commands[0])
+	if (!populate_cmd_block(new_cmd, tok, redir))
 	{
 		ft_free_full_cmd(new_cmd);
 		return (0);

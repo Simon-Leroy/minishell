@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   multiple_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:09 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:10 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/24 22:34:30 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	multiple_commands(t_cmd *cmd, pid_t *pids, t_shell *shell)
 	i = 0;
 	fd[0] = -1;
 	fd[1] = -1;
-	ignore_signal();
+/* 	ignore_signal(); */
 	fd[0] = first_command(tmp, &pids[i++], shell);
 	tmp = tmp->next;
 	while (tmp && tmp->next)
@@ -57,6 +57,6 @@ void	multiple_commands(t_cmd *cmd, pid_t *pids, t_shell *shell)
 	if (tmp)
 		last_command(tmp, fd, &pids[i++], shell);
 	wait_for_children(pids, i, shell);
-	setup_signal();
+/* 	setup_signal(); */
 	free(pids);
 }

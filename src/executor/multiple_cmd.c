@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:09 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/24 22:34:30 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/25 16:10:06 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static void	wait_for_children(pid_t *pids, size_t n, t_shell *shell)
 				shell->last_exit_code = 128 + WTERMSIG(status);
 				if (WTERMSIG(status) == SIGINT)
 					write(1, "\n", 1);
+				if (WTERMSIG(status) == SIGQUIT)
+					write(1, " quit (core dumped)\n", 20);
 			}
 		}
 		j++;

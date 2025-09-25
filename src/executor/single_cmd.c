@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:16 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/24 16:33:04 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/25 15:32:22 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,13 @@
 void	single_parent_process(pid_t pid, int *status, t_shell *shell)
 {
 	waitpid(pid, status, 0);
-	if (WIFSIGNALED(*status) && WTERMSIG(*status) == SIGINT)
-		write(1, "\n", 1);
+	if (WIFSIGNALED(*status))
+	{
+		if (WTERMSIG(*status) == SIGINT)
+			write(1, "\n", 1);
+		else if (WTERMSIG(*status) == SIGQUIT)
+			write(1, " quit (core dumped)\n", 20);
+	}
 	setup_signal();
 	if (WIFEXITED(*status))
 		shell->last_exit_code = WEXITSTATUS(*status);

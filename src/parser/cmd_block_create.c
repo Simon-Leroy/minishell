@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:38 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/25 00:07:21 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/25 16:20:37 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,24 @@ t_cmd	*allocate_cmd_block(t_token *tok)
 	return (cmd_block);
 }
 
+static int	copy_command(t_cmd *cmd_block, t_token *tok, int *i)
+{
+	cmd_block->commands[*i] = ft_strdup(tok->value);
+	if (!cmd_block->commands[*i])
+	{
+		while (--(*i) >= 0)
+		{
+			free(cmd_block->commands[*i]);
+			cmd_block->commands[*i] = NULL;
+		}
+		free(cmd_block->commands);
+		cmd_block->commands = NULL;
+		return (0);
+	}
+	(*i)++;
+	return (1);
+}
+
 // Met les données dans le noeud de commande
 int	populate_cmd_block(t_cmd *cmd_block, t_token *tok, t_redir *redir)
 {
@@ -49,19 +67,8 @@ int	populate_cmd_block(t_cmd *cmd_block, t_token *tok, t_redir *redir)
 	{
 		if (tmp->is_redir == 0)
 		{
-			cmd_block->commands[i] = ft_strdup(tmp->value);
-			if (!cmd_block->commands[i])
-			{
-				while (--i >= 0)
-				{
-					free(cmd_block->commands[i]);
-					cmd_block->commands[i] = NULL;
-				}
-				free(cmd_block->commands);
-				cmd_block->commands = NULL;
+			if (!copy_command(cmd_block, tmp, &i))
 				return (0);
-			}
-			i++;
 		}
 		tmp = tmp->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:52:31 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/24 10:41:43 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/25 16:22:35 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ static char	*read_input(t_shell *shell)
 	}
 	if (g_signal == SIGINT)
 	{
+		printf("SOUS GROS G\n");
+		shell->last_exit_code = 130;
+		g_signal = 0;
+	}
+	if (g_signal == SIGQUIT)
+	{
+		printf("SOUS PETIT G\n");
 		shell->last_exit_code = 130;
 		g_signal = 0;
 	}
@@ -63,6 +70,7 @@ int	main(int argc, char **argv, char **envp)
 	shell.last_exit_code = 0;
 	shell.env = init_env(envp);
 	setup_signal();
+/* 	signal(SIGQUIT, SIG_IGN); */
 	while (1)
 	{
 		input = read_input(&shell);
@@ -74,4 +82,3 @@ int	main(int argc, char **argv, char **envp)
 	ft_free_env(shell.env);
 	return (0);
 }
-

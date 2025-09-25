@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:07 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:09 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/25 13:46:22 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,10 @@ void	write_heredoc_eof_error(char *eof)
 	write(2, "(wanted '", 9);
 	write(2, eof, ft_strlen(eof));
 	write(2, "')\n", 3);
+}
+
+void	restore_heredoc_signal(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 }

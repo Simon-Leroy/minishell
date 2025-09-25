@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:52:40 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/24 09:57:20 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/25 13:46:54 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,7 @@ void			ft_free_env(t_env *env);
 void			sigint_handler(int signum);
 void			sigquit_handler(int signum);
 void			restore_signal(void);
+void			restore_heredoc_signal(void);
 void			ignore_signal(void);
 void			setup_signal(void);
 

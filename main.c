@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:52:31 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/26 11:32:28 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/26 14:46:33 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,3 @@ int	main(int argc, char **argv, char **envp)
 	ft_free_env(shell.env);
 	return (0);
 }
-
-

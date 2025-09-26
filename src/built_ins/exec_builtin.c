@@ -6,12 +6,15 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:50:54 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/24 12:09:01 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/26 16:56:14 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Si name est le nom d'un builtin !ft_strcmp(name, builtin) renvoie
+un int different de 0
+Ici uniquement les built ins qui s'executent en dehors d'un child process*/
 int	is_parent_builtin(char *name)
 {
 	return (!ft_strcmp(name, "exit") || !ft_strcmp(name, "export")

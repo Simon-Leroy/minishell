@@ -6,13 +6,14 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:50:55 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 22:36:17 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/26 16:08:29 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	args_count(char **args)
+/* Compte le nombre d'arguments dans la fonction exit */
+static int	args_count(char **args)
 {
 	int	i;
 
@@ -22,6 +23,8 @@ int	args_count(char **args)
 	return (i);
 }
 
+/* Determine si la chaine de caractere est numerique ou non
+i.e. au format +123 ou -123 ou 123 */
 int	is_numeric(char *str)
 {
 	int	i;
@@ -38,6 +41,11 @@ int	is_numeric(char *str)
 	return (1);
 }
 
+/* -Si exit sans argument --> exit avec le dernier code de sortie
+-Si plus d'un argument (exit 12 23) --> erreur
+-Si bien un seul argument, on enleve les quotes (exit "12" est valide)
+si c'est bien un argument numerique on exit avec unsigned char
+pour toujours etre entre 0 et 255 */
 int	ft_exit(char **args, int last_status)
 {
 	int		args_nbr;

@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_count.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:35 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:36 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/25 16:35:14 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Si symbole d'input ou d'output on verifie si le symbole suivant
+est identique pour determiner si append ou heredoc
+On compte un mot supplementaire et fait avancer le curseur adequatement */
 static void	handle_separator(char *s, size_t *i, int *words)
 {
 	if ((s[*i] == '>' || s[*i] == '<') && s[*i + 1] && s[*i] == s[*i + 1])

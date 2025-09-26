@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:50:57 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:50:58 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/26 14:59:29 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Checke le nom de la variable utilisee pour export et unset:
+-le nom ne peut commencer que par une lettre ou par underscore _
+-les caracteres suivants ne peuvent etre qu'alphanumeriques ou underscore */
 int	is_valid_identifier(char *str)
 {
 	int	i;
@@ -30,6 +33,9 @@ int	is_valid_identifier(char *str)
 	return (1);
 }
 
+/* Fonction pour isoler la valeur de la variable exportee
+donc apres le signe =
+export ABC=bonjour --> bonjour */
 char	*get_export_value(char *str)
 {
 	char	*equal_sign;
@@ -41,6 +47,10 @@ char	*get_export_value(char *str)
 		return (ft_strdup(""));
 }
 
+/* Fonction pour isoler le nom de la variable exportee
+donc avant le signe =
+-substr(str, start, len) renvoie la string commencant a start
+et de longueur len*/
 char	*get_export_key(char *str)
 {
 	char	*equal_sign;
@@ -54,6 +64,7 @@ char	*get_export_key(char *str)
 	return (ft_substr(str, 0, len));
 }
 
+/* Fonction print d'erreur en cas de nom de valeur non valide */
 void	print_export_error(char *identifier)
 {
 	write(2, "export: '", 10);
@@ -61,6 +72,14 @@ void	print_export_error(char *identifier)
 	write(2, "': not a valid identifier\n", 26);
 }
 
+/* Fonction d'export, plusieurs variables peuvent etre exportees d'un coup
+
+1)Check si le nom de la variable est valide
+2)Si valide, on extrait le nom et la valeur et on les met
+dans l'environnement avec set_env
+
+On return a la toute fin et pas dans la boucle car il faut pouvoir
+checker toutes les variables et print toutes les erreurs */
 int	ft_export(char **args, t_env **env)
 {
 	int		i;

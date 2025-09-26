@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:50:42 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:50:46 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/26 16:49:03 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ static int	count_args(char **args)
 	return (res);
 }
 
+/* Remet a jour PWD apres chaque utilisation de cd
+==> Parcourt la liste d'environnement, quand on tombe sur PWD,
+on reassigne a la cle PWD le repertoire courant avec getcwd */
 static void	change_pwd(t_env *env)
 {
 	char	new_pwd[PATH_MAX];
@@ -43,6 +46,11 @@ static void	change_pwd(t_env *env)
 	}
 }
 
+/* Gere le cas ou la fonction cd est utilisee seule sans argument
+1)On recupere la valeur de HOME dans l'environnement
+2)On va dans ce repertoire avec chdir
+3)On modifie pwd avec la fonction change_pwd precedente
+4)Renvoie 0 en cas de succes */
 static int	cd_alone(t_env *env)
 {
 	char	*target;
@@ -62,6 +70,11 @@ static int	cd_alone(t_env *env)
 	return (1);
 }
 
+/* -Si un seul argument = cd seul
+-Si deux arguments, on essaye de se rendre vers le
+dossier indique et on change pwd ; si le dossier n'existe pas
+renvoie une erreur
+-Si plus de deux arguments : erreur */
 int	ft_cd(char **args, t_env *env)
 {
 	int	res;

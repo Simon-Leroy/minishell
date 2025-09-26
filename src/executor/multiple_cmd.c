@@ -48,7 +48,6 @@ void	multiple_commands(t_cmd *cmd, pid_t *pids, t_shell *shell)
 	i = 0;
 	fd[0] = -1;
 	fd[1] = -1;
-/* 	ignore_signal(); */
 	fd[0] = first_command(tmp, &pids[i++], shell);
 	tmp = tmp->next;
 	while (tmp && tmp->next)
@@ -59,6 +58,5 @@ void	multiple_commands(t_cmd *cmd, pid_t *pids, t_shell *shell)
 	if (tmp)
 		last_command(tmp, fd, &pids[i++], shell);
 	wait_for_children(pids, i, shell);
-/* 	setup_signal(); */
 	free(pids);
 }

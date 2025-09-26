@@ -70,7 +70,6 @@ int	main(int argc, char **argv, char **envp)
 	shell.last_exit_code = 0;
 	shell.env = init_env(envp);
 	setup_signal();
-/* 	signal(SIGQUIT, SIG_IGN); */
 	while (1)
 	{
 		input = read_input(&shell);

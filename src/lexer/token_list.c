@@ -6,13 +6,13 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:32 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/24 15:18:48 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/27 10:56:42 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Renvoie un pointeur vers le dernier noeud de la liste chaînée de tokens
+/* Renvoie un pointeur vers le dernier noeud de la liste chaînée de tokens */
 t_token	*ft_lst_last_token(t_token *list)
 {
 	t_token	*last;
@@ -25,8 +25,10 @@ t_token	*ft_lst_last_token(t_token *list)
 	return (last);
 }
 
-// Ajoute un nouveau token à la liste chaînée et crée le premier noeud
-// si la liste est vide
+/*
+Ajoute un nouveau token à la fin de la liste chaînée ou crée le
+premier noeud si la liste est vide
+*/
 int	append_token(t_token **list, char *value, t_token_type type)
 {
 	t_token	*new_node;

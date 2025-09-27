@@ -6,14 +6,16 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:50:49 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/26 15:37:38 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/27 10:19:17 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Prend en argument l'environnement envp du main et le met
-dans une structure t_env que l'on pourra manipuler nous-memes */
+/*
+Prend en argument l'environnement envp du main et le met
+dans une structure t_env que l'on pourra manipuler nous-memes
+*/
 t_env	*init_env(char **envp)
 {
 	t_env	*env;
@@ -41,8 +43,10 @@ t_env	*init_env(char **envp)
 	return (env);
 }
 
-/* Join le nom de la variable + signe egal + valeur
-(strlcat append a la suite de str en ne depassant pas len bytes) */
+/*
+Join le nom de la variable + signe egal + valeur
+(strlcat append a la suite de str en ne depassant pas len bytes)
+*/
 char	*join_key_value(char *key, char *value)
 {
 	char	*str;
@@ -65,9 +69,11 @@ static void	free_tab(char **tab, int i)
 	free(tab);
 }
 
-/* build_envp fait init_env a l'envers
+/*
+build_envp fait init_env a l'envers
 --> prend en argument une structure env pour en faire un char **
-On en a besoin en 3eme argument de la fonction execve */
+On en a besoin en 3eme argument de la fonction execve
+*/
 char	**build_envp(t_env *env)
 {
 	char	**envp;

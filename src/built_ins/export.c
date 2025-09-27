@@ -6,15 +6,17 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:50:57 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/26 14:59:29 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/27 10:22:50 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Checke le nom de la variable utilisee pour export et unset:
+/*
+Checke le nom de la variable utilisee pour export et unset:
 -le nom ne peut commencer que par une lettre ou par underscore _
--les caracteres suivants ne peuvent etre qu'alphanumeriques ou underscore */
+-les caracteres suivants ne peuvent etre qu'alphanumeriques ou underscore
+*/
 int	is_valid_identifier(char *str)
 {
 	int	i;
@@ -33,9 +35,11 @@ int	is_valid_identifier(char *str)
 	return (1);
 }
 
-/* Fonction pour isoler la valeur de la variable exportee
+/*
+Fonction pour isoler la valeur de la variable exportee
 donc apres le signe =
-export ABC=bonjour --> bonjour */
+export ABC=bonjour --> bonjour
+*/
 char	*get_export_value(char *str)
 {
 	char	*equal_sign;

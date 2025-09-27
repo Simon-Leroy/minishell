@@ -3,15 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_check.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:34 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:35 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/27 11:01:19 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+Checke la cohérence de la liste de tokens :
+
+- Si deux symboles pipe à la suite : erreur
+- Si une redirection n'est pas suivie d'un mot/filename : erreur
+
+Renvoie 0 en cas de succès
+*/
 static int	check_syntax(t_token *tokens, t_shell *shell)
 {
 	if (tokens->type == PIPE)
@@ -36,6 +44,14 @@ static int	check_syntax(t_token *tokens, t_shell *shell)
 	return (0);
 }
 
+/*
+Checke toute la liste :
+
+- Si la liste commence par un pipe : erreur
+- On checke ensuite chaque token avec la fonction précédente
+
+Renvoie 0 en cas de succès
+*/
 int	check_tokens(t_token *tokens, t_shell *shell)
 {
 	t_token	*curr;

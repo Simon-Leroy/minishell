@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_types.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:37 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:38 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/27 10:49:26 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Assigne un type en fonction des caractères spéciaux rencontrés
+/* Assigne un type en fonction des caractères spéciaux rencontrés */
 t_token_type	get_t_type(char *str)
 {
 	t_token_type	type;

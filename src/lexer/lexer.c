@@ -3,17 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:28 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:29 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/27 11:10:24 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Split la string en tokens puis forme une liste chaînée
-// avec tous les tokens produits -> 1 noeud = 1 token
+/*
+Fonction de création de la liste de tokens qui sera utilisée pour le
+parsing
+
+1) Si des quotes ne sont pas fermées --> renvoie NULL
+2) On met les tokens dans un tableau de char
+3) On ajoute ensuite tous les tokens dans une liste chaînée
+avec leur valeur, leur type, et si c'est une redirection (0 par
+défaut, valeur updatée lors du parsing)
+4) Si la syntaxe de la liste n'est pas bonne on free
+
+Retourne la liste complétée en cas de succès
+*/
 t_token	*list_tokens(char *str, t_shell *shell)
 {
 	t_token	*list;

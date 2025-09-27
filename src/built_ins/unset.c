@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:00 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/26 14:36:22 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/27 10:23:34 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@ void	free_env_var(t_env *env)
 	free(env);
 }
 
-/* Supprimer une variable d'environnement, deux cas:
-1)la variable est premiere est dans la liste, il faut juste
+/*
+Supprimer une variable d'environnement, deux cas:
+1)la variable est premiere est dans la liste chainée, il faut juste
 changer la tete de liste
 2)la variable est plus loin, il faut checker toute la liste
-et retirer le bon node */
+et retirer le bon node
+*/
 int	remove_var(t_env **env, char *key)
 {
 	t_env	*current;

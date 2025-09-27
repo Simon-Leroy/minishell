@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:50:47 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/26 16:26:07 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/27 10:24:03 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ echo -n bonjour = print bonjour sans mettre de retour a la ligne
 
 check_option permet de valider l'option associee a echo
 - -n ou -nnnnnnn sont valides
-- -ne ou abc ne le sont pas */
+- -ne ou abc ne le sont pas
+*/
 static int	check_option(char *str)
 {
 	size_t	i;
@@ -34,10 +35,12 @@ static int	check_option(char *str)
 	return (0);
 }
 
-/* 1)Tant qu'il y a des options on avance dans args et on met newline a 0
+/*
+1)Tant qu'il y a des options on avance dans args et on met newline a 0
 ==> gere plusieurs options comme echo -n -n -nnn bonjour
 2)On imprime les caracteres suivants separes par des espaces
-3)Si newline vaut il n'y a pas eu d'option on ajoute \n */
+3)Si newline vaut il n'y a pas eu d'option on ajoute \n
+*/
 static void	print_echo(int count, int i, int newline, char **args)
 {
 	while (args[i] && check_option(args[i]))
@@ -56,10 +59,12 @@ static void	print_echo(int count, int i, int newline, char **args)
 		printf("\n");
 }
 
-/* -On compte le nombre d'arguments et on commence a 1
+/*
+-On compte le nombre d'arguments et on commence a 1
 car args[0] = "echo"
 -On initialise newline a 1 donc retour a ligne par defaut
-sauf si des options sont detectees dans print_echo */
+sauf si des options sont detectees dans print_echo
+*/
 int	ft_echo(char **args)
 {
 	int		count;

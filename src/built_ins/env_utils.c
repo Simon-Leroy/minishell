@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:50:51 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/26 15:19:58 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/27 10:18:52 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ int	env_count(t_env *env)
 	return (count);
 }
 
-/* Fonction qui permet de changer la valeur d'une variable deja existante
+/*
+Fonction qui permet de changer la valeur d'une variable deja existante
 Si la fonction renvoie -1 cela signifie qu'aucune variable de ce nom n'existait
-au prealable --> utile dans la fonction set_env */
+au prealable --> utile dans la fonction set_env
+*/
 static int	update_env_value(t_env *env, char *key, char *value)
 {
 	while (env)
@@ -46,12 +48,14 @@ static int	update_env_value(t_env *env, char *key, char *value)
 	return (-1);
 }
 
-/* Update ou cree une nouvelle variable d'environnement
+/*
+Update ou cree une nouvelle variable d'environnement
 
 1)Si status >= 0 on renvoie status qui signifie qu'on update
 ou rencontre une erreur
 2)Sinon, la variable n'existe pas donc on l'insere au debut de
-la structure env (liste chainee) */
+la structure env (liste chainee)
+*/
 int	set_env(t_env **env, char *key, char *value)
 {
 	t_env	*new_node;

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:31 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:32 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/27 10:30:48 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Détermine si le caractère est un white space ou une fin de chaîne
+/* Détermine si le caractère est un white space ou une fin de chaîne */
 int	check_char(char c)
 {
 	if ((c >= 9 && c <= 12) || c == ' ' || c == '\0')
@@ -20,6 +20,7 @@ int	check_char(char c)
 	return (0);
 }
 
+/* Détermine si le caractère est un symbole de redirection ou de pipe */
 int	is_separator(char c)
 {
 	if (c == '>' || c == '<' || c == '|')
@@ -27,7 +28,12 @@ int	is_separator(char c)
 	return (0);
 }
 
-// Incrémente i et len jusqu'à ce que le délimiteur soit atteint
+/*
+Fonction helper pour réduire la taille de ft_token_len
+
+incrémente len et avance le curseur i jusqu'à ce que le délimiteur
+(une quote) soit atteint
+*/
 void	increment_len(char *str, size_t *i, size_t *len, char delim)
 {
 	(*i)++;
@@ -44,8 +50,10 @@ void	increment_len(char *str, size_t *i, size_t *len, char delim)
 	}
 }
 
-// Calcule la longueur du token pour allouer les caractères de chaque string
-// du tableau
+/*
+Calcule la longueur d'un token pour pouvoir allouer les caractères
+le bon nombre de caractères dans chaque string du tableau de tokens
+*/
 size_t	ft_token_len(char *s)
 {
 	size_t	len;
@@ -75,7 +83,7 @@ size_t	ft_token_len(char *s)
 	return (len);
 }
 
-// Copie un token
+/* strcpy mais pour un token */
 char	*token_copy(char *s)
 {
 	char		*token;

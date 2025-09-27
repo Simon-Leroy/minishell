@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:30 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:31 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/27 10:38:04 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,15 @@ static void	free_tab(char **tab, int i)
 	free(tab);
 }
 
-// Découpe la string s en un tableau de tokens en tenant compte des quotes
+/*
+ft_split mais pour les tokens
+
+1) Skip les whitespaces
+2) On mesure la len du token
+3) On copie le token dans le tableau
+4) On avance le curseur dans s pour skip tout le token
+5) On incrémente i pour passer à la str suivante du tableau
+*/
 char	**ft_tokenize(char *s)
 {
 	char	**tab;

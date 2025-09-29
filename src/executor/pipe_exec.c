@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:11 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:12 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/29 12:55:22 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,22 @@ static void	exec_cmd_and_builtin(t_cmd *cmd, t_shell *shell)
 	else
 		exec_cmd(cmd, shell);
 }
+/*
+L’entrée vient de STDIN, la sortie va vers le pipe suivant
+-> uniquement besoin de redigirer la sortie vers l’écriture
+-> dup2(fd[1], STDOUT)
 
+Fermetures dans l’enfant :
+-on utilise pas fd[0] car l’entrée vient du terminal
+-> on le ferme immédiatement
+-après dup2 on peut fermer fd[1] car STDOUT pointe déjà dessus
+
+Fermetures dans le parent :
+-on ferme fd[1] sinon le pipe ne sera pas considéré comme vide et
+la commande suivante ne pourra pas lire fd[0]
+
+On return fd[0] qui est passé à la commande suivante en argument
+*/
 int	first_command(t_cmd *cmd, pid_t *pid_out, t_shell *shell)
 {
 	int		fd[2];

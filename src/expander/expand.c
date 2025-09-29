@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:19 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:20 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/29 12:17:11 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/* Alloue la mémoire pour la chaîne de caractères une fois expand */
 static char	*alloc_expanded_str(char *str, t_shell *shell)
 {
 	size_t	len;
@@ -24,9 +25,29 @@ static char	*alloc_expanded_str(char *str, t_shell *shell)
 	return (exp);
 }
 
-/* Pour réduire le nombre de paramètres dans la fonction :
+/*
+Fonction qui gère le suivi des quotes, le déclenchement
+de l'expansion et la copie des caractères normaux
+
+-Si on rencontre un single quote, et qu'on n'est pas dans des double
+quotes, on inverse l'état des single quotes, 0 -> fermé, 1 -> ouvert
+On copie le single quote et on avance les pointeurs
+
+-Si on rencontre un double quote, pareil en inversé
+
+-Si on est pas dans des quotes simples et qu'on tombe sur un dollar,
+on appelle process_env_var_copy qui va extraire et copier la valeur de
+la variable d'environnement
+
+-Sinon on copie simplement le caractère
+
+Pour réduire le nombre de paramètres dans la fonction :
 	quotes[0] --> quand on est dans une single quote
-	quotes[1] --> quand on est dans une double quote */
+	quotes[1] --> quand on est dans une double quote
+
+Utilisation des doubles pointeurs pour moins de paramètres.
+Equivalent à cursor[(*i)++] = src[(*j)++]
+*/
 
 static void	handle_expansion_char(char **src, char **cursor,
 		int quotes[2], t_shell *shell)
@@ -47,6 +68,15 @@ static void	handle_expansion_char(char **src, char **cursor,
 		*(*cursor)++ = *(*src)++;
 }
 
+/*
+Fonction finale pour retourner la chaîne expanded
+
+On fait pointer cursor sur le début de la chaîne exp puis
+on se sert de cursor pour remplir la chaîne dans la fonction
+handle_expansion_char.
+A la fin on renvoie exp qui pointe toujours sur le début de la chaîne
+qui a été remplie avec les bons caractères
+*/
 char	*expand_str(char *str, t_shell *shell)
 {
 	char	*exp;

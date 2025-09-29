@@ -6,7 +6,7 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:16 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/26 10:17:28 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/29 12:52:20 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,16 @@ void	single_parent_process(pid_t pid, int *status, t_shell *shell)
 		shell->last_exit_code = 1;
 }
 
+/*
+Fonction d'exécution d'une commande seule
+
+1) On commence par ignorer les signaux dans le processus parent
+pour ne pas qu'il soit interrompu par Ctrl + C
+2) On fork et on rétablit les signaux dans le processus enfant
+pour que le processus puisse être interrompu
+3) On exécute la commande
+4) On récupère le code de sortie dans le processus parent
+*/
 void	single_command(t_cmd *cmd, t_shell *shell)
 {
 	pid_t	pid;

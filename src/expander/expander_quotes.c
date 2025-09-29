@@ -3,15 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   expander_quotes.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:20 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:21 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/29 12:28:12 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+Met à jour l'état des guillemets et détermine si on est à l'intérieur
+ou à l'extérieur de quotes.
+
+-Si le caractère est une single quote et qu'on n'est pas dans des doubles
+quotes, on inverse l'état de s_quote et on skip la quote avec i++
+
+-Si le caractère est une double quote, pareil mais inversé
+*/
 static void	handle_quotes(char *str, int *d_quote, int *s_quote, int *i)
 {
 	if (str[*i] == '\'' && !*d_quote)
@@ -26,6 +35,8 @@ static void	handle_quotes(char *str, int *d_quote, int *s_quote, int *i)
 	}
 }
 
+/* Calcule la longueur de la chaîne après la suppression des quotes inutiles
+"Hello 'World'" --> Hello 'World' --> 13 */
 size_t	len_without_quotes(char *str)
 {
 	size_t	len;
@@ -50,6 +61,10 @@ size_t	len_without_quotes(char *str)
 	return (len);
 }
 
+/*
+Même fonctionnement que la fonction précédente mais en copiant les
+caractères dans une nouvelle chaîne plutôt que de compter la longueur
+*/
 char	*remove_quotes(char *str)
 {
 	char	*new_str;

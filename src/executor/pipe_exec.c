@@ -35,6 +35,7 @@ la commande suivante ne pourra pas lire fd[0]
 
 On return fd[0] qui est passé à la commande suivante en argument
 */
+
 int	first_command(t_cmd *cmd, pid_t *pid_out, t_shell *shell)
 {
 	int		fd[2];

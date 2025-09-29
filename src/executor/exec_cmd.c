@@ -37,6 +37,7 @@ le code de retour de la built-in
 7) On construit le tableau des var d'environnement à passer à execve
 8) On exécute la commande avec execve
 */
+
 void	exec_cmd(t_cmd *cmd, t_shell *shell)
 {
 	char	*path;

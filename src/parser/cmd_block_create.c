@@ -6,13 +6,13 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:38 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/26 12:47:53 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/29 11:12:30 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Alloue la mémoire nécessaire pour créer la liste chaînée de commandes
+/* Alloue la mémoire nécessaire pour créer la liste chaînée de commandes */
 t_cmd	*allocate_cmd_block(t_token *tok)
 {
 	t_cmd	*cmd_block;
@@ -37,6 +37,12 @@ t_cmd	*allocate_cmd_block(t_token *tok)
 	return (cmd_block);
 }
 
+/*
+Fonction helper pour réduire la taille de la commande populate
+
+Copie les args des commandes dans la structure t_cmd à partir
+des tokens
+ */
 static int	copy_command(t_cmd *cmd_block, t_token *tok, int *i)
 {
 	cmd_block->commands[*i] = ft_strdup(tok->value);
@@ -55,7 +61,14 @@ static int	copy_command(t_cmd *cmd_block, t_token *tok, int *i)
 	return (1);
 }
 
-// Met les données dans le noeud de commande
+/*
+Met toutes les données provenant des tokens dans la structure t_cmd
+
+Si is_redir == 0 -> c'est un argument de commande donc on utilise
+copy_command. Le dernier élément du tableau est un NULL.
+On associe à cette structure les redirections qui ont été mises dans une autre
+structure t_redir au préalable
+*/
 int	populate_cmd_block(t_cmd *cmd_block, t_token *tok, t_redir *redir)
 {
 	t_token	*tmp;
@@ -78,7 +91,10 @@ int	populate_cmd_block(t_cmd *cmd_block, t_token *tok, t_redir *redir)
 	return (1);
 }
 
-// Ajoute une nouvelle commande à la liste chaînée des commandes
+/*
+Ajoute un bloc de commandes à la suite des autres dans la liste chaînée.
+Si la liste est vide, le noeud créé devient la tête de la liste
+*/
 int	append_cmd(t_cmd **head, t_token *tok, t_redir *redir)
 {
 	t_cmd	*new_cmd;

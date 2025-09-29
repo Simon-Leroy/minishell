@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   redir_list_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:47 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:48 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/28 22:52:07 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Retourne un pointeur sur le dernier noeud de la liste t_redir
-// renvoie NULL si la liste est vide
+/*
+Retourne un pointeur sur le dernier noeud de la liste t_redir
+renvoie NULL si la liste est vide
+*/
 t_redir	*ft_lst_last_redir(t_redir *list)
 {
 	t_redir	*last;
@@ -26,6 +28,14 @@ t_redir	*ft_lst_last_redir(t_redir *list)
 	return (last);
 }
 
+/*
+Ajoute une redirection à la fin de la liste chaînée des redirections
+(pour qu'elles soient bien exécutées de gauche à droite) avec le type
+et le nom de fichier associé.
+Passe l'indicateur de redirection du token sur 1
+Si la liste est vide, crée le premier noeud
+> out ==> type = OUTPUT | filename = out
+*/
 int	append_redir(t_redir **head, t_token *tok)
 {
 	t_redir	*new_node;

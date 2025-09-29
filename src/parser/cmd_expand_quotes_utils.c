@@ -3,15 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_expand_quotes_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:41 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:43 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/28 22:41:51 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+Parcourt les commandes et fait l'expansion quand un signe
+dollar est détecté
+*/
 void	expand_cmd_args(t_cmd *cmd, t_shell *shell)
 {
 	int		i;
@@ -32,6 +36,7 @@ void	expand_cmd_args(t_cmd *cmd, t_shell *shell)
 	}
 }
 
+/* Parcourt les redirections et fait l'expansion */
 void	expand_redirections(t_redir *redir, t_shell *shell)
 {
 	t_redir	*tmp_redir;
@@ -50,6 +55,7 @@ void	expand_redirections(t_redir *redir, t_shell *shell)
 	}
 }
 
+/* Enlève les quotes des commandes comme le fait bash */
 void	remove_quotes_args(t_cmd *cmd)
 {
 	int		i;
@@ -67,6 +73,7 @@ void	remove_quotes_args(t_cmd *cmd)
 	}
 }
 
+/* Enlève les quotes des redirections */
 void	remove_quotes_redir(t_cmd *cmd)
 {
 	t_redir	*tmp_redir;
@@ -87,6 +94,11 @@ void	remove_quotes_redir(t_cmd *cmd)
 	}
 }
 
+/*
+Parcourt le tableau des args d'un bloc de commandes (avant pipe)
+et ne garde que les arguments non vides (ce qui peut arriver après
+une expansion ou des quotes enlevées). Les arguments vides sont free
+*/
 void	remove_empty_args(t_cmd *cmd)
 {
 	int	i;

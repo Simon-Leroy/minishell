@@ -6,16 +6,18 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:46 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/25 16:44:45 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/28 22:58:40 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* Renvoie 1 si les quotes sont bien fermées, 0 sinon.
+/*
+Renvoie 1 si les quotes sont bien fermées, 0 sinon.
 On fait avancer la chaine de caractere jusqu'a la fin des quotes
 ou la fin de la chaine
-Va permettre de conserver dans un seul token les caracteres sous quote*/
+Va permettre de conserver dans un seul token les caracteres sous quote
+*/
 int	validate_quote_closure(char *str, char delim, size_t *index)
 {
 	if (str[*index] == delim)

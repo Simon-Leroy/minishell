@@ -6,16 +6,18 @@
 /*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:44 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/25 16:37:52 by sleroy           ###   ########.fr       */
+/*   Updated: 2025/09/29 11:13:19 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* A partir de la liste de tokens tok, crée une liste chaînée t_cmd
-où chaque noeud contient:
+/*
+Commande finale du parsing qui à partir de la liste de tokens
+crée une liste chaînée t_cmd où chaque noeud contient:
 -le tableau de commandes (pour execve)
--la liste de redirections associée à chaque commande */
+-la liste de redirections associée à chaque commande
+*/
 t_cmd	*link_cmd_redir(t_token *tok, t_shell *shell)
 {
 	t_cmd	*cmd;

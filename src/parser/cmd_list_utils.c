@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_list_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: roguille <roguille@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sleroy <sleroy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/23 01:51:43 by roguille          #+#    #+#             */
-/*   Updated: 2025/09/23 01:51:44 by roguille         ###   ########.fr       */
+/*   Updated: 2025/09/28 22:44:56 by sleroy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Renvoie un pointeur vers le dernier noeud de la liste chaînée de commandes
+/* Renvoie un pointeur vers le dernier noeud de la liste chaînée de commandes */
 t_cmd	*ft_lst_last_cmd(t_cmd *list)
 {
 	t_cmd	*last;
@@ -25,9 +25,10 @@ t_cmd	*ft_lst_last_cmd(t_cmd *list)
 	return (last);
 }
 
-// 1 bloc = commandes + redirection délimitées par un pipe
-// Compte le nombre de commandes dans un bloc
-
+/*
+1 bloc = commandes + redirections délimitées par un pipe
+Compte le nombre de commandes (pas les redirections) dans un bloc
+*/
 size_t	nb_cmd_by_block(t_token	*tokens)
 {
 	t_token	*current;
